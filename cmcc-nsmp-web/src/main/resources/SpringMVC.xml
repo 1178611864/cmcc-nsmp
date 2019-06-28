@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+         http://www.springframework.org/schema/mvc
+         http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+    <!-- 扫描@Controller注解,多个包中间使用逗号分隔 -->
+    <context:component-scan base-package="com.ultrapower.web" />
+
+    <!-- 支持mvc注解驱动（加载处理器映射器和处理器适配器） -->
+    <mvc:annotation-driven />
+
+    <!-- 视图解析器 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!-- 前缀 -->
+        <property name="prefix" value="/WEB-INF/views/" />
+        <!-- 后缀 -->
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+    <bean id="multipartResolver" class=
+            "org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 设置上传文件的最大尺寸为5MB -->
+        <property name="maxUploadSize">
+            <value>5242880</value>
+        </property>
+    </bean>
+
+    <!-- Spring MVC不处理静态资源 -->
+    <mvc:default-servlet-handler />
+
+</beans>

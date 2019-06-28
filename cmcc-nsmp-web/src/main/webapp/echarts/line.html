@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="echarts.min.js"></script>
+    <script src="jquery1.42.min.js"></script>
+</head>
+<body>
+<div id="main" style="width: 600px;height:400px;"></div>
+<script>
+    var myChart = echarts.init(document.getElementById('main'));
+
+    $(function () {
+        showLine();
+    })
+    function showLine() {
+        $.ajax({
+            url:'/tests111',
+            dataType:"json",
+            success:function (data) {
+                var option = {
+                    title : {
+                        text : '折线图'
+                    },
+                    tooltip : {
+                        trigger : 'axis',//显示该列下所有坐标轴所对应的数据
+                        axisPointer : { // 坐标轴指示器,坐标轴触发有效
+                            //鼠标滑过显示效果 'line'直线 | 'shadow'阴影(默认)
+                            type : 'line'
+                        }
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: data.x
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [{
+                        data: data.y,
+                        type: 'line'
+                    }]
+                };
+                myChart.setOption(option);
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

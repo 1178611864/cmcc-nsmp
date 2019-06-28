@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder ignore-unresolvable="true" location="classpath:db.properties"/>
+    <!--<context:property-placeholder location="classpath*:*.properties"/>-->
+
+    <!--配置数据源datasource-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driver}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+        <!--以下参数：连接池初始化配置-->
+        <property name="initialSize" value="5" />
+        <property name="maxActive" value="100" />
+        <property name="maxIdle" value="30" />
+        <property name="maxWait" value="1000" />
+        <property name="poolPreparedStatements" value="true" />
+        <property name="defaultAutoCommit" value="false" />
+    </bean>
+
+    <!--配置dao层的bean-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--注入数据源对象-->
+        <property name="dataSource" ref="dataSource" />
+        <!-- 自动扫描mapping.xml（sql映射文件）文件 -->
+        <property name="mapperLocations" value="classpath:com/ultrapower/dao/*.xml" />
+        <!--mybatis主配置文件-->
+        <property name="configLocation" value="classpath:SqlMapConfig.xml" />
+    </bean>
+
+    <!-- 在指定路径下寻找 dao层的接口（类） -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.ultrapower.dao" /><!--接口的包路径-->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+    </bean>
+
+
+</beans>

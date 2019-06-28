@@ -1,0 +1,315 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" href="lib/zTree/v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>集团业务系统管理</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>首页<span class="c-gray en">&gt;</span>系统管理<span class="c-gray en">&gt;</span>集团业务系统管理
+</nav>
+
+<table class="table">
+	<tr>
+
+		<!--首页>系统管理>集团业务系统管理   左变的树-->
+		<td style="width: 12%" class="va-t">
+			<!--<br>-->
+			<div style="background-color: #f2f0ff;height: 30px;text-align: right">
+				<a title="添加节点" href="javascript:;" onclick="bs_group_add('添加集团业务系统','bs_group_add.html',800,530)" style="text-decoration:none"><span style="font-weight: bold;font-size: 18px;line-height: 30px">+</span></a>
+				<a title="编辑节点" href="javascript:;" onclick="bs_group_edit('编辑集团业务系统','bs_group_edit.html',800,800)" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+				<a title="删除节点" href="javascript:;" onclick="bs_group_del(this)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>&emsp;
+			</div>
+			<ul id="treeDemo" class="ztree"></ul><!--集团业务树-->
+		</td>
+		<!--资产信息+管辖资产-->
+		<td style="width: 88%" class="va-t">
+			<iframe ID="testIframe" Name="testIframe" FRAMEBORDER=0 SCROLLING="no" width=100%  height=600px
+					SRC="bs_group_table.html"></iframe>
+		</td>
+	</tr>
+</table>
+<div>
+
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/zTree/v3/js/jquery.ztree.all-3.5.min.js"></script> 
+<script type="text/javascript">
+var setting = {
+	view: {
+		dblClickExpand: false,
+		showLine: false,
+		selectedMulti: false
+	},
+	data: {
+		simpleData: {
+			enable:true,
+			idKey: "id",
+			pIdKey: "pId",
+			rootPId: ""
+		}
+	},
+	callback: {
+		beforeClick: function(treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("tree");
+			/*点击集团业务系统节点，将当前的主键记录在cookie中*/
+			$.cookie("groupId",treeNode.nodepk);//选中的集团业务系统的主键
+			$.cookie("groupName",treeNode.name);//选中的集团业务系统的名称
+			//判断是否是末级节点
+			//alert(treeNode.isParent)
+			if(treeNode.isParent){
+			    $.cookie("isParent","y");
+			}else {
+			    $.cookie("isParent","n");
+			}
+
+			/*点击节点时，判断是否是第三级节点*/
+            var currentId =  treeNode.id;
+            var isThree = "n";
+            if(currentId > 1000){
+                isThree = "y";//当前是第三级节点，y
+			}
+            $.cookie("isThree",isThree);
+
+			//alert(treeNode.nodepk);//每一个treeNode == { id:1, pId:0, name:"移动集团",aaa:0, open:true},
+			$.ajax({
+				url:'/BsGroupProvController/findTableDataByNodeId',
+				data:'nodeId='+treeNode.nodepk,
+				dataType:'json',
+				success:function (data) {
+					/*data.amBsGroup;*/
+					groupBaseInfo(data.amBsGroup);
+					///data.provDTOS;
+					showProvs(data.provDTOS);
+                }
+			});
+
+            //$('#testIframe').contents().find("#bs_name").text("哈哈哈");
+
+            /*  1、点击某个节点，将节点的主键存在cookie中*/
+            /*2、打开页面*/
+			//demoIframe.attr("src","bs_group_table.html");/*点击了<a href="xxxxx">aaaa</a>      打开bs_group_table.html页面*/
+			/* 3，页面加载出来之后，取当前节点的主键 -- >ajax   */
+
+			//alert(treeNode.aaa)
+			//treeNode 当前点击的节点
+			/*if (treeNode.isParent) {
+                //demoIframe.attr("src","system-base.html");
+				zTree.expandNode(treeNode);
+				return true;
+			} else {
+				//demoIframe.attr("src","system-base.html");
+				return true;
+			}*/
+		}
+	}
+};
+
+/*var zNodes =[
+	{ id:1, pId:0, name:"移动集团",aaa:0, open:true},
+		{ id:101, pId:1, name:"核心网系统",aaa:'aaaaa'},
+			{ id:1011, pId:101, name:"通信网电路域省际长途网",aaa:6},
+			{ id:1012, pId:101, name:"移动通信网电路域省内长途网",aaa:6},
+			{ id:1013, pId:101, name:"移动通信网分组域国际部分",aaa:3},
+    	{ id:102, pId:1, name:"业务网系统",nodepk:1,aaa:123123,bb:"adafd"},
+    	{ id:103, pId:1, name:"数据网系统",nodepk:2},
+    	{ id:104, pId:1, name:"IP承载网系统",nodepk:3},
+    { id:2, pId:0, name:"测试",aaa:0, open:true},
+];*/
+
+var zNodes = [
+    /*{
+        "name": "移动集团",
+        "pId": 0,
+        "id": 1,
+        "nodepk": "56f59313bca54be98e1ef7a4e7081300"
+    },
+    {
+        "name": "核心网系统",
+        "pId": 1,
+        "id": 101,
+        "nodepk": "56f59313bca54be98e1ef7a4e7081301"
+    },
+    {
+        "name": "通信网电路域省际长途网",
+        "pId": 101,
+        "id": 1011,
+        "nodepk": "56f59313bca54be98e1ef7a4e7081305"
+    },
+    {
+        "name": "移动通信网电路域省内长途网",
+        "pId": 101,
+        "id": 1012,
+        "nodepk": "56f59313bca54be98e1ef7a4e7081306"
+    },
+    {
+        "name": "移动通信网分组域国际部分",
+        "pId": 101,
+        "id": 1013,
+        "nodepk": "56f59313bca54be98e1ef7a4e7081307"
+    },
+    {
+        "name": "业务网系统",
+        "pId": 1,
+        "id": 102,
+        "nodepk": "56f59313bca54be98e1ef7a4e7081302"
+    },
+    {
+        "name": "数据网系统",
+        "pId": 1,
+        "id": 103,
+        "nodepk": "56f59313bca54be98e1ef7a4e7081303"
+    },
+    {
+        "name": "IP承载网系统",
+        "pId": 1,
+        "id": 104,
+        "nodepk": "56f59313bca54be98e1ef7a4e7081304"
+    }*/
+];
+
+var code;
+
+function showCode(str) {
+	if (!code) code = $("#code");
+	code.empty();
+	code.append("<li>"+str+"</li>");
+}
+		
+$(document).ready(function(){
+
+    $.ajax({
+		url:'/BsGroupProvController/bsGroupTree',
+		dataType:'json',
+		success:function (data) {
+            zNodes = data.bsGroupTree;
+
+            /*加载树*/
+            var t = $("#treeDemo");
+            t = $.fn.zTree.init(t, setting, zNodes);
+            demoIframe = $("#testIframe");
+            //demoIframe.on("load", loadReady);
+            var zTree = $.fn.zTree.getZTreeObj("tree");
+            //zTree.selectNode(zTree.getNodeByParam("id",'11'));
+        }
+	});
+
+});
+
+/*$(function () {
+
+})*/
+
+
+function groupBaseInfo(data) {
+    $('#testIframe').contents().find("#bs_name").text(data.bsName);
+    $('#testIframe').contents().find("#parent_bs").text(data.pkBsParent);
+    $('#testIframe').contents().find("#bs_code").text(data.bsCode);
+    $('#testIframe').contents().find("#bs_src").text(data.bsSrc);
+    $('#testIframe').contents().find("#display_idx").text(data.displaySeq);
+    $('#testIframe').contents().find("#bs_desc").text(data.bsDesc);
+    $('#testIframe').contents().find("#mapping_regex").text(data.mappingRegex);
+}
+
+
+
+function bs_group_add(title,url,w,h){
+    //判断是否是第三级节点
+	var isThree = $.cookie("isThree");
+	if(isThree == null){
+	    alert("请选择一个节点");
+	}else{
+        if(isThree=='y'){
+            alert("第三级节点不能继续添加！！")
+        }else{
+            layer_show(title,url,w,h);
+        }
+	}
+}
+
+function bs_group_edit(title,url,id,w,h){
+    layer_show(title,url,w,h);
+}
+
+function bs_group_del(obj){
+    //主键
+    var groupId = $.cookie("groupId");
+
+    //是否是末级
+    var idParent = $.cookie("isParent");
+
+    if(idParent=="y"){
+
+        layer.msg('当前不是末级节点，不能删除!',{icon:0,time:2000});
+	}else {
+        layer.confirm('确定要删除该【集团】业务系统信息吗？',function(index){
+            //请先删除该业务系统下的子节点
+            $.ajax({
+                type: 'POST',
+                url: '/BsGroupProvController/deleteBsGroupByGroupId?pkBsGroup='+groupId,
+                dataType: 'json',
+                success: function(data){
+                    if(data.code==1){
+                        location.reload();
+                        layer.msg('已删除!',{icon:1,time:1000});
+					}
+
+                },
+                error:function(data) {
+                    console.log(data.msg);
+                },
+            });
+        });
+	}
+
+}
+
+/**
+ *
+ * @param data  =  json数组
+ */
+function showProvs(data) {
+    //provstb
+    var str = '';
+    var sum = 0 ;
+    for (var i = 0 ; i<data.length;i++){
+        sum+= parseInt(data[i].assetCount);
+        str+='<tr class="text-c">' +
+            '<td>'+(i+1)+'</td>' +
+            '<td>'+data[i].provName+'</td>' +
+            '<td>'+data[i].bsName+'</td>' +
+            '<td>'+data[i].matchType+'</td>' +
+            '<td>'+data[i].assetCount+'</td>' +
+            '<td class="f-14">' +
+            '<a title="删除省份业务系统映射" onclick="bs_prov_del(this,\''+data[i].pkBsProv+'\','+data[i].assetCount+')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>' +
+            '</td></tr>';
+    }
+    $('#testIframe').contents().find("#provstb").html(str);
+    $('#testIframe').contents().find("#m_asset_count").text(sum);
+}
+</script>
+</body>
+</html>

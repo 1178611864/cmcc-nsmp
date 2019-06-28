@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="echarts.min.js"></script>
+    <script src="jquery1.42.min.js"></script>
+</head>
+<body>
+<div id="main" style="width: 600px;height:400px;"></div>
+<script>
+    var myChart = echarts.init(document.getElementById('main'));
+
+    $(function () {
+        showLine();
+    })
+    function showLine() {
+        $.ajax({
+            url:'/test2',
+            dataType:"json",
+            success:function (data) {
+                var option = {
+                    title: {
+                        text: '资产统计：'+11,
+                        left: 'right'
+                    },
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    legend: {
+                        // orient: 'vertical',
+                        // top: 'middle',
+                        bottom: 10,
+                        left: 'center',
+                        data: data.data1
+                    },
+                    series : [
+                        {
+                            name:'资产统计',
+                            type: 'pie',
+                            radius : '65%',
+                            center: ['50%', '50%'],
+                            selectedMode: 'single',
+                            data:data.data2,
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ]
+                };
+                myChart.setOption(option);
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

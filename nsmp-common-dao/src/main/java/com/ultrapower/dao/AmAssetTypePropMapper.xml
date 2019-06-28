@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ultrapower.dao.AmAssetTypePropMapper" >
+  <resultMap id="BaseResultMap" type="com.ultrapower.pojo.AmAssetTypeProp" >
+    <id column="PK_ASSET_TYPE" property="pkAssetType" jdbcType="CHAR" />
+    <id column="PK_ASSET_PROP" property="pkAssetProp" jdbcType="CHAR" />
+    <result column="IS_VIEW" property="isView" jdbcType="SMALLINT" />
+    <result column="NEED_VALUE" property="needValue" jdbcType="SMALLINT" />
+    <result column="COLLECT_TYPE" property="collectType" jdbcType="CHAR" />
+    <result column="DISPLAY_IDX" property="displayIdx" jdbcType="SMALLINT" />
+    <result column="DISPLAY_PRIORITY" property="displayPriority" jdbcType="CHAR" />
+    <result column="COME_FROM" property="comeFrom" jdbcType="SMALLINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    PK_ASSET_TYPE, PK_ASSET_PROP, IS_VIEW, NEED_VALUE, COLLECT_TYPE, DISPLAY_IDX, DISPLAY_PRIORITY, 
+    COME_FROM
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ultrapower.pojo.AmAssetTypePropExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from am_asset_type_prop
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.ultrapower.pojo.AmAssetTypePropKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from am_asset_type_prop
+    where PK_ASSET_TYPE = #{pkAssetType,jdbcType=CHAR}
+      and PK_ASSET_PROP = #{pkAssetProp,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.ultrapower.pojo.AmAssetTypePropKey" >
+    delete from am_asset_type_prop
+    where PK_ASSET_TYPE = #{pkAssetType,jdbcType=CHAR}
+      and PK_ASSET_PROP = #{pkAssetProp,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ultrapower.pojo.AmAssetTypePropExample" >
+    delete from am_asset_type_prop
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ultrapower.pojo.AmAssetTypeProp" >
+    insert into am_asset_type_prop (PK_ASSET_TYPE, PK_ASSET_PROP, IS_VIEW, 
+      NEED_VALUE, COLLECT_TYPE, DISPLAY_IDX, 
+      DISPLAY_PRIORITY, COME_FROM)
+    values (#{pkAssetType,jdbcType=CHAR}, #{pkAssetProp,jdbcType=CHAR}, #{isView,jdbcType=SMALLINT}, 
+      #{needValue,jdbcType=SMALLINT}, #{collectType,jdbcType=CHAR}, #{displayIdx,jdbcType=SMALLINT}, 
+      #{displayPriority,jdbcType=CHAR}, #{comeFrom,jdbcType=SMALLINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ultrapower.pojo.AmAssetTypeProp" >
+    insert into am_asset_type_prop
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkAssetType != null" >
+        PK_ASSET_TYPE,
+      </if>
+      <if test="pkAssetProp != null" >
+        PK_ASSET_PROP,
+      </if>
+      <if test="isView != null" >
+        IS_VIEW,
+      </if>
+      <if test="needValue != null" >
+        NEED_VALUE,
+      </if>
+      <if test="collectType != null" >
+        COLLECT_TYPE,
+      </if>
+      <if test="displayIdx != null" >
+        DISPLAY_IDX,
+      </if>
+      <if test="displayPriority != null" >
+        DISPLAY_PRIORITY,
+      </if>
+      <if test="comeFrom != null" >
+        COME_FROM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkAssetType != null" >
+        #{pkAssetType,jdbcType=CHAR},
+      </if>
+      <if test="pkAssetProp != null" >
+        #{pkAssetProp,jdbcType=CHAR},
+      </if>
+      <if test="isView != null" >
+        #{isView,jdbcType=SMALLINT},
+      </if>
+      <if test="needValue != null" >
+        #{needValue,jdbcType=SMALLINT},
+      </if>
+      <if test="collectType != null" >
+        #{collectType,jdbcType=CHAR},
+      </if>
+      <if test="displayIdx != null" >
+        #{displayIdx,jdbcType=SMALLINT},
+      </if>
+      <if test="displayPriority != null" >
+        #{displayPriority,jdbcType=CHAR},
+      </if>
+      <if test="comeFrom != null" >
+        #{comeFrom,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ultrapower.pojo.AmAssetTypePropExample" resultType="java.lang.Integer" >
+    select count(*) from am_asset_type_prop
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update am_asset_type_prop
+    <set >
+      <if test="record.pkAssetType != null" >
+        PK_ASSET_TYPE = #{record.pkAssetType,jdbcType=CHAR},
+      </if>
+      <if test="record.pkAssetProp != null" >
+        PK_ASSET_PROP = #{record.pkAssetProp,jdbcType=CHAR},
+      </if>
+      <if test="record.isView != null" >
+        IS_VIEW = #{record.isView,jdbcType=SMALLINT},
+      </if>
+      <if test="record.needValue != null" >
+        NEED_VALUE = #{record.needValue,jdbcType=SMALLINT},
+      </if>
+      <if test="record.collectType != null" >
+        COLLECT_TYPE = #{record.collectType,jdbcType=CHAR},
+      </if>
+      <if test="record.displayIdx != null" >
+        DISPLAY_IDX = #{record.displayIdx,jdbcType=SMALLINT},
+      </if>
+      <if test="record.displayPriority != null" >
+        DISPLAY_PRIORITY = #{record.displayPriority,jdbcType=CHAR},
+      </if>
+      <if test="record.comeFrom != null" >
+        COME_FROM = #{record.comeFrom,jdbcType=SMALLINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update am_asset_type_prop
+    set PK_ASSET_TYPE = #{record.pkAssetType,jdbcType=CHAR},
+      PK_ASSET_PROP = #{record.pkAssetProp,jdbcType=CHAR},
+      IS_VIEW = #{record.isView,jdbcType=SMALLINT},
+      NEED_VALUE = #{record.needValue,jdbcType=SMALLINT},
+      COLLECT_TYPE = #{record.collectType,jdbcType=CHAR},
+      DISPLAY_IDX = #{record.displayIdx,jdbcType=SMALLINT},
+      DISPLAY_PRIORITY = #{record.displayPriority,jdbcType=CHAR},
+      COME_FROM = #{record.comeFrom,jdbcType=SMALLINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ultrapower.pojo.AmAssetTypeProp" >
+    update am_asset_type_prop
+    <set >
+      <if test="isView != null" >
+        IS_VIEW = #{isView,jdbcType=SMALLINT},
+      </if>
+      <if test="needValue != null" >
+        NEED_VALUE = #{needValue,jdbcType=SMALLINT},
+      </if>
+      <if test="collectType != null" >
+        COLLECT_TYPE = #{collectType,jdbcType=CHAR},
+      </if>
+      <if test="displayIdx != null" >
+        DISPLAY_IDX = #{displayIdx,jdbcType=SMALLINT},
+      </if>
+      <if test="displayPriority != null" >
+        DISPLAY_PRIORITY = #{displayPriority,jdbcType=CHAR},
+      </if>
+      <if test="comeFrom != null" >
+        COME_FROM = #{comeFrom,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where PK_ASSET_TYPE = #{pkAssetType,jdbcType=CHAR}
+      and PK_ASSET_PROP = #{pkAssetProp,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ultrapower.pojo.AmAssetTypeProp" >
+    update am_asset_type_prop
+    set IS_VIEW = #{isView,jdbcType=SMALLINT},
+      NEED_VALUE = #{needValue,jdbcType=SMALLINT},
+      COLLECT_TYPE = #{collectType,jdbcType=CHAR},
+      DISPLAY_IDX = #{displayIdx,jdbcType=SMALLINT},
+      DISPLAY_PRIORITY = #{displayPriority,jdbcType=CHAR},
+      COME_FROM = #{comeFrom,jdbcType=SMALLINT}
+    where PK_ASSET_TYPE = #{pkAssetType,jdbcType=CHAR}
+      and PK_ASSET_PROP = #{pkAssetProp,jdbcType=CHAR}
+  </update>
+</mapper>

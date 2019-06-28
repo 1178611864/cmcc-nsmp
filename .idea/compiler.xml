@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="cmcc-nsmp-web" />
+        <module name="nsmp-asset-service-impl" />
+        <module name="nsmp-asset-service-interface" />
+        <module name="nsmp-asset-web" />
+        <module name="nsmp-assetprop-service-impl" />
+        <module name="nsmp-assetprop-service-interface" />
+        <module name="nsmp-assetProp-web" />
+        <module name="nsmp-bsgroupprov-service-impl" />
+        <module name="nsmp-bsgroupprov-service-interface" />
+        <module name="nsmp-bsgroupprov-web" />
+        <module name="nsmp-common-dao" />
+        <module name="nsmp-common-pojo" />
+        <module name="nsmp-common-service" />
+        <module name="nsmp-common-utils" />
+        <module name="nsmp-redis" />
+        <module name="nsmp-user-service-impl" />
+        <module name="nsmp-user-service-interface" />
+        <module name="nsmp-user-web" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>

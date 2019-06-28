@@ -1,0 +1,230 @@
+﻿<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="Bookmark" href="/favicon.ico">
+    <link rel="Shortcut Icon" href="/favicon.ico"/>
+    <script type="text/javascript" src="lib/html5shiv.js"></script>
+    <script type="text/javascript" src="lib/respond.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css"/>
+    <link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin"/>
+    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css"/>
+    <!--[if IE 6]>
+    <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js"></script>
+    <script>DD_belatedPNG.fix('*');</script>
+    <![endif]-->
+    <!--/meta 作为公共模版分离出去-->
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 属性基准管理 <span class="c-gray en">&gt;</span> 端口基准列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+    <form id="queryForm">
+        <!--查询下拉框-->
+        <div class="text-c" style="background-color: #f2f0ff;line-height: 50px">
+            省份：
+            <span>
+                <select class="select" style="width: 130px;text-align-last: center;height: 30px;">
+                    <option>所有</option>
+                    <option>所有1</option>
+                    <option>所有2</option>
+                </select>
+            </span>&emsp;
+            端口类型：
+            <span>
+                <select class="select" style="width: 150px;text-align-last: center;height: 30px">
+                    <option>所有</option>
+                    <option>请选择1</option>
+                    <option>请选择2</option>
+                </select>
+            </span>&emsp;
+            协议：
+            <span>
+                <select class="select" style="width: 130px;text-align-last: center;height: 30px">
+                    <option>所有</option>
+                    <option>请选择1</option>
+                    <option>请选择2</option>
+                </select>
+            </span>&emsp;
+
+            端口：
+            <input type="text" class="input-text" name="" style="width:130px">&emsp;
+            <!--查询、重置-->
+            <button type="button" onclick="searchBmPort()" class="btn btn-primary radius"  name=""><i class="Hui-iconfont"></i> 查询</button>
+            <button type="reset" class="btn btn-primary radius"  name=""><i class="Hui-iconfont"></i> 重置</button>
+        </div>
+
+        <!--表格-->
+        <div class="mt-20">
+            <table class="table table-border table-bordered table-bg table-hover table-sort">
+                <thead>
+                    <tr class="text-c">
+                        <th width="50">序号</th>
+                        <th width="50">省份</th>
+                        <th width="50">严重级别</th>
+                        <th width="50">端口类型</th>
+                        <th width="50">协议</th>
+                        <th width="50">端口</th>
+                        <th width="200">创建人</th>
+                        <th width="200">最后更新时间</th>
+                        <th width="100">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="tb">
+                    <tr class="text-c">
+                        <td>1</td>
+                        <td>北京</td>
+                        <td>高</td>
+                        <td>禁止开发</td>
+                        <td>TCP</td>
+                        <td>22</td>
+                        <td>super</td>
+                        <td>2019-06-25 15:58:35</td>
+                        <td class="td-manage">
+                            <a title="编辑" href="javascript:;" onclick="edit_port_bm('编辑端口基准','admin-add.html','2','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+                            <a title="删除" href="javascript:;" onclick="delete_port_bm(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--分页-->
+        <div>
+            <br>当前第<font id="asset_now">1</font>页，共<font id="asset_pages">10</font>页
+            <a href="javascript:;" onclick="asset_page_down()" id="asset_page_down"  class="btn btn-primary radius r"><i class="Hui-iconfont"></i>下一页</a><a class="r">&nbsp;</a>
+            <a href="javascript:;" onclick="asset_page_up()" id="asset_page_up"  class="btn btn-primary radius r"><i class="Hui-iconfont"></i>上一页</a>
+        </div>
+    </form>
+</div>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.skin-minimal input').iCheck({
+            checkboxClass: 'icheckbox-blue',
+            radioClass: 'iradio-blue',
+            increaseArea: '20%'
+        });
+        $("#tab-system").Huitab({
+            index: 0
+        });
+    });
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+<script>
+    /*编辑端口基准*/
+    function edit_port_bm(title,url,id,w,h){
+        parent.layer_show(title,url,w,h);
+    }
+
+    /*删除端口基准*/
+    function delete_port_bm(obj,id){
+        parent.parent.layer.confirm('确定要删除吗？',function(index){
+            $.ajax({
+                type: 'get',
+                url: '',
+                dataType: 'json',
+                success: function(data){
+                    $(obj).parents("tr").remove();
+                    layer.msg('已删除!',{icon:1,time:1000});
+                    parent.parent.layer.close(index);
+                },
+                error:function(data) {
+                    console.log(data.msg);
+                }
+            });
+        });
+    }
+
+    /**
+     *  端口基准列表
+     */
+    function init_bm_port(){
+        $.ajax({
+            url:"",
+            dataType:'json',
+            success:function (data) {
+                provSelect(data.provs);//省份下拉框
+                portTypesSelect(data.portTypes);//端口类型下拉框
+                protocalSelect(data.protocal);//协议下拉框
+                portTable(data.ports);//表格数据
+            }
+        });
+    }
+    /*省份下拉框 */
+    function provSelect(data) {
+        var str = "<option value='' selected>所有</option>";
+        for(var i = 0 ; i < data.length ;i++){
+            str += "<option value='"+data[i].provCode+"'>"+data[i].provName+"</option>";
+        }
+        $("#prov").html(str);
+    }
+    /*端口类型下拉框*/
+    function portTypesSelect(data) {
+        var str = "<option value='' selected>所有</option>";
+        for(var i = 0 ; i < data.length ;i++){
+            str += "<option value='"+data[i].pkAssetType+"'>"+data[i].typeName+"</option>";
+        }
+        $("#assetType").html(str);
+    }
+
+    /*协议下拉框*/
+    function protocalSelect(data) {
+        var str = "<option value='' selected>所有</option>";
+        for(var i = 0 ; i < data.length ;i++){
+            str += "<option value='"+data[i].pkAssetType+"'>"+data[i].typeName+"</option>";
+        }
+        $("#assetType").html(str);
+    }
+
+    /*端口表格数据*/
+    function portTable(data) {
+        var str = "";
+        for(var i = 0 ; i < data.length ;i++){
+            str += "<tr class=\"text-c\">" +
+                " <td>"+(i+1)+"</td>" +
+                "<td>"+data[i].g_BS_NAME+"</td>" +
+                "<td>"+data[i].prov_NAME+"</td>" +
+                "<td>"+data[i].p_BS_NAME+"</td>" +
+                "<td>"+data[i].asset_NAME+"</td>" +
+                "<td>"+data[i].asset_IP+"</td>" +
+                "<td>"+data[i].type_NAME+"</td>" +
+                "<td class=\"f-14\">" +
+                "<a style=\"text-decoration:none\"onclick=\"bs_group_look_asset('查看资产信息','bs_group_look_asset.html','0001','780','400')\" href=\"javascript:;\"><span style=\"color: #0e90d2\">查看</span></a>" +
+                " </td></tr>";
+        }
+        $("#tb").html(str);
+    }
+
+    /*查询*/
+    function searchBmPort() {
+        $.ajax({
+            url:'',
+            data:$("#queryForm").serialize(),
+            dataType:'json',
+            success:function (data) {
+                portTable(data.ports);//表格数据
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

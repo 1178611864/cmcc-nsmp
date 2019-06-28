@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ultrapower.dao.AmBsGroupProvMapper" >
+  <resultMap id="BaseResultMap" type="com.ultrapower.pojo.AmBsGroupProv" >
+    <id column="PK_BS_GROUP_PROV" property="pkBsGroupProv" jdbcType="CHAR" />
+    <result column="PK_BS_GROUP" property="pkBsGroup" jdbcType="CHAR" />
+    <result column="PK_BS_PROV" property="pkBsProv" jdbcType="CHAR" />
+    <result column="MATCH_TYPE" property="matchType" jdbcType="SMALLINT" />
+    <result column="PK_CREATOR" property="pkCreator" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    PK_BS_GROUP_PROV, PK_BS_GROUP, PK_BS_PROV, MATCH_TYPE, PK_CREATOR, CREATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ultrapower.pojo.AmBsGroupProvExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from am_bs_group_prov
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from am_bs_group_prov
+    where PK_BS_GROUP_PROV = #{pkBsGroupProv,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from am_bs_group_prov
+    where PK_BS_GROUP_PROV = #{pkBsGroupProv,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ultrapower.pojo.AmBsGroupProvExample" >
+    delete from am_bs_group_prov
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ultrapower.pojo.AmBsGroupProv" >
+    insert into am_bs_group_prov (PK_BS_GROUP_PROV, PK_BS_GROUP, PK_BS_PROV, 
+      MATCH_TYPE, PK_CREATOR, CREATE_TIME
+      )
+    values (#{pkBsGroupProv,jdbcType=CHAR}, #{pkBsGroup,jdbcType=CHAR}, #{pkBsProv,jdbcType=CHAR}, 
+      #{matchType,jdbcType=SMALLINT}, #{pkCreator,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ultrapower.pojo.AmBsGroupProv" >
+    insert into am_bs_group_prov
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkBsGroupProv != null" >
+        PK_BS_GROUP_PROV,
+      </if>
+      <if test="pkBsGroup != null" >
+        PK_BS_GROUP,
+      </if>
+      <if test="pkBsProv != null" >
+        PK_BS_PROV,
+      </if>
+      <if test="matchType != null" >
+        MATCH_TYPE,
+      </if>
+      <if test="pkCreator != null" >
+        PK_CREATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkBsGroupProv != null" >
+        #{pkBsGroupProv,jdbcType=CHAR},
+      </if>
+      <if test="pkBsGroup != null" >
+        #{pkBsGroup,jdbcType=CHAR},
+      </if>
+      <if test="pkBsProv != null" >
+        #{pkBsProv,jdbcType=CHAR},
+      </if>
+      <if test="matchType != null" >
+        #{matchType,jdbcType=SMALLINT},
+      </if>
+      <if test="pkCreator != null" >
+        #{pkCreator,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ultrapower.pojo.AmBsGroupProvExample" resultType="java.lang.Integer" >
+    select count(*) from am_bs_group_prov
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update am_bs_group_prov
+    <set >
+      <if test="record.pkBsGroupProv != null" >
+        PK_BS_GROUP_PROV = #{record.pkBsGroupProv,jdbcType=CHAR},
+      </if>
+      <if test="record.pkBsGroup != null" >
+        PK_BS_GROUP = #{record.pkBsGroup,jdbcType=CHAR},
+      </if>
+      <if test="record.pkBsProv != null" >
+        PK_BS_PROV = #{record.pkBsProv,jdbcType=CHAR},
+      </if>
+      <if test="record.matchType != null" >
+        MATCH_TYPE = #{record.matchType,jdbcType=SMALLINT},
+      </if>
+      <if test="record.pkCreator != null" >
+        PK_CREATOR = #{record.pkCreator,jdbcType=CHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update am_bs_group_prov
+    set PK_BS_GROUP_PROV = #{record.pkBsGroupProv,jdbcType=CHAR},
+      PK_BS_GROUP = #{record.pkBsGroup,jdbcType=CHAR},
+      PK_BS_PROV = #{record.pkBsProv,jdbcType=CHAR},
+      MATCH_TYPE = #{record.matchType,jdbcType=SMALLINT},
+      PK_CREATOR = #{record.pkCreator,jdbcType=CHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ultrapower.pojo.AmBsGroupProv" >
+    update am_bs_group_prov
+    <set >
+      <if test="pkBsGroup != null" >
+        PK_BS_GROUP = #{pkBsGroup,jdbcType=CHAR},
+      </if>
+      <if test="pkBsProv != null" >
+        PK_BS_PROV = #{pkBsProv,jdbcType=CHAR},
+      </if>
+      <if test="matchType != null" >
+        MATCH_TYPE = #{matchType,jdbcType=SMALLINT},
+      </if>
+      <if test="pkCreator != null" >
+        PK_CREATOR = #{pkCreator,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_BS_GROUP_PROV = #{pkBsGroupProv,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ultrapower.pojo.AmBsGroupProv" >
+    update am_bs_group_prov
+    set PK_BS_GROUP = #{pkBsGroup,jdbcType=CHAR},
+      PK_BS_PROV = #{pkBsProv,jdbcType=CHAR},
+      MATCH_TYPE = #{matchType,jdbcType=SMALLINT},
+      PK_CREATOR = #{pkCreator,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where PK_BS_GROUP_PROV = #{pkBsGroupProv,jdbcType=CHAR}
+  </update>
+
+  <select id="selectProvByGroupId" parameterType="string" resultMap="selectProvByGroupIdResultMap">
+    SELECT t4.*,IFNULL(t5.ASSET_COUNT,0) AS ASSET_COUNT FROM (
+SELECT a.`PK_BS_PROV`,a.`BS_NAME`,
+(CASE b.`MATCH_TYPE` WHEN 0 THEN '自动映射' WHEN 1 THEN '人工指定' ELSE '未知' END ) AS MATCH_TYPE ,c.`PROV_NAME`
+FROM `am_bs_prov` a,`am_bs_group_prov` b ,`bdm_prov` c
+WHERE a.`PK_BS_PROV` = b.`PK_BS_PROV`
+AND b.`PK_BS_GROUP` = #{groupId}
+AND c.`PROV_CODE` = a.`PROV_CODE`
+) t4 LEFT JOIN
+ (
+SELECT t.`PK_BS_PROV`,COUNT(1) AS ASSET_COUNT FROM
+(SELECT a.`PK_BS_PROV`,a.`BS_NAME`,
+(CASE b.`MATCH_TYPE` WHEN 0 THEN '自动映射' WHEN 1 THEN '人工指定' ELSE '未知' END ) AS MATCH_TYPE ,c.`PROV_NAME`
+FROM `am_bs_prov` a,`am_bs_group_prov` b ,`bdm_prov` c
+WHERE a.`PK_BS_PROV` = b.`PK_BS_PROV`
+AND b.`PK_BS_GROUP` = #{groupId}
+AND c.`PROV_CODE` = a.`PROV_CODE`) t RIGHT JOIN `am_asset` m ON t.`PK_BS_PROV` = m.`PK_PROV_BS` GROUP BY t.`PK_BS_PROV`
+HAVING t.`PK_BS_PROV` IS NOT NULL
+ )
+ t5 ON t4.`PK_BS_PROV`=t5.`PK_BS_PROV`
+  </select>
+
+  <resultMap id="selectProvByGroupIdResultMap" type="com.ultrapower.pojo.ProvDTO">
+    <result column="PK_BS_PROV" property="pkBsProv" />
+    <result column="BS_NAME" property="bsName" />
+    <result column="MATCH_TYPE" property="matchType" />
+    <result column="PROV_NAME" property="provName" />
+    <result column="ASSET_COUNT" property="assetCount" />
+  </resultMap>
+
+  <select id="selectBsGroupMgAsset" parameterType="com.ultrapower.pojo.GroupMgAssetQueryVO" resultType="com.ultrapower.pojo.BsGroupMgAsset">
+    SELECT a.`PK_BS_GROUP`,a.`BS_NAME` AS G_BS_NAME,c.`PROV_CODE`,f.`PROV_NAME` ,c.`PK_BS_PROV`,c.`BS_NAME` AS P_BS_NAME ,d.`PK_ASSET`,d.`ASSET_NAME`,d.`ASSET_IP`,d.`PK_ASSET_TYPE`,e.`TYPE_NAME`
+    FROM `am_bs_group` a , `am_bs_group_prov` b ,`am_bs_prov` c ,`am_asset` d,`am_asset_type` e,`bdm_prov` f
+
+    <where>
+      <if test="groupId!=null and groupId!=''">
+        AND b.`PK_BS_GROUP` = #{groupId}
+        AND a.`PK_BS_GROUP` = b.`PK_BS_GROUP`
+        AND b.`PK_BS_PROV` = c.`PK_BS_PROV`
+        AND d.`PK_PROV_BS` = c.`PK_BS_PROV`
+        AND d.`PK_ASSET_TYPE` = e.`PK_ASSET_TYPE`
+        AND c.`PROV_CODE` = f.`PROV_CODE`
+      </if>
+      <if test="prov != null and prov != '' ">
+        AND c.`PROV_CODE` = #{prov}
+        /*private String prov;
+        private String assetType;
+        private String assetKeyWords;*/
+      </if>
+      <if test="assetType!=null and assetType!= ''">
+        AND d.`PK_ASSET_TYPE` = #{assetType}
+      </if>
+      <if test="assetKeyWords!=null and assetKeyWords!= ''">
+        AND d.`ASSET_NAME` LIKE '%${assetKeyWords}%'
+      </if>
+    </where>
+
+  </select>
+
+</mapper>

@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ultrapower.dao.AmBsGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.ultrapower.pojo.AmBsGroup" >
+    <id column="PK_BS_GROUP" property="pkBsGroup" jdbcType="CHAR" />
+    <result column="BS_NAME" property="bsName" jdbcType="VARCHAR" />
+    <result column="BS_CODE" property="bsCode" jdbcType="VARCHAR" />
+    <result column="BS_DESC" property="bsDesc" jdbcType="VARCHAR" />
+    <result column="FULL_NAME" property="fullName" jdbcType="VARCHAR" />
+    <result column="BS_SRC" property="bsSrc" jdbcType="SMALLINT" />
+    <result column="DISPLAY_SEQ" property="displaySeq" jdbcType="SMALLINT" />
+    <result column="PK_BS_PARENT" property="pkBsParent" jdbcType="CHAR" />
+    <result column="SERIESCODE" property="seriescode" jdbcType="VARCHAR" />
+    <result column="MAPPING_REGEX" property="mappingRegex" jdbcType="VARCHAR" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="SMALLINT" />
+    <result column="PK_CREATOR" property="pkCreator" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="PK_MENDER" property="pkMender" jdbcType="CHAR" />
+    <result column="MEND_TIME_LAST" property="mendTimeLast" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    PK_BS_GROUP, BS_NAME, BS_CODE, BS_DESC, FULL_NAME, BS_SRC, DISPLAY_SEQ, PK_BS_PARENT, 
+    SERIESCODE, MAPPING_REGEX, IS_DELETED, PK_CREATOR, CREATE_TIME, PK_MENDER, MEND_TIME_LAST
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ultrapower.pojo.AmBsGroupExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from am_bs_group
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from am_bs_group
+    where PK_BS_GROUP = #{pkBsGroup,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from am_bs_group
+    where PK_BS_GROUP = #{pkBsGroup,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ultrapower.pojo.AmBsGroupExample" >
+    delete from am_bs_group
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ultrapower.pojo.AmBsGroup" >
+    insert into am_bs_group (PK_BS_GROUP, BS_NAME, BS_CODE, 
+      BS_DESC, FULL_NAME, BS_SRC, 
+      DISPLAY_SEQ, PK_BS_PARENT, SERIESCODE, 
+      MAPPING_REGEX, IS_DELETED, PK_CREATOR, 
+      CREATE_TIME, PK_MENDER, MEND_TIME_LAST
+      )
+    values (#{pkBsGroup,jdbcType=CHAR}, #{bsName,jdbcType=VARCHAR}, #{bsCode,jdbcType=VARCHAR}, 
+      #{bsDesc,jdbcType=VARCHAR}, #{fullName,jdbcType=VARCHAR}, #{bsSrc,jdbcType=SMALLINT}, 
+      #{displaySeq,jdbcType=SMALLINT}, #{pkBsParent,jdbcType=CHAR}, #{seriescode,jdbcType=VARCHAR}, 
+      #{mappingRegex,jdbcType=VARCHAR}, #{isDeleted,jdbcType=SMALLINT}, #{pkCreator,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{pkMender,jdbcType=CHAR}, #{mendTimeLast,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ultrapower.pojo.AmBsGroup" >
+    insert into am_bs_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkBsGroup != null" >
+        PK_BS_GROUP,
+      </if>
+      <if test="bsName != null" >
+        BS_NAME,
+      </if>
+      <if test="bsCode != null" >
+        BS_CODE,
+      </if>
+      <if test="bsDesc != null" >
+        BS_DESC,
+      </if>
+      <if test="fullName != null" >
+        FULL_NAME,
+      </if>
+      <if test="bsSrc != null" >
+        BS_SRC,
+      </if>
+      <if test="displaySeq != null" >
+        DISPLAY_SEQ,
+      </if>
+      <if test="pkBsParent != null" >
+        PK_BS_PARENT,
+      </if>
+      <if test="seriescode != null" >
+        SERIESCODE,
+      </if>
+      <if test="mappingRegex != null" >
+        MAPPING_REGEX,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+      <if test="pkCreator != null" >
+        PK_CREATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="pkMender != null" >
+        PK_MENDER,
+      </if>
+      <if test="mendTimeLast != null" >
+        MEND_TIME_LAST,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkBsGroup != null" >
+        #{pkBsGroup,jdbcType=CHAR},
+      </if>
+      <if test="bsName != null" >
+        #{bsName,jdbcType=VARCHAR},
+      </if>
+      <if test="bsCode != null" >
+        #{bsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bsDesc != null" >
+        #{bsDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="fullName != null" >
+        #{fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="bsSrc != null" >
+        #{bsSrc,jdbcType=SMALLINT},
+      </if>
+      <if test="displaySeq != null" >
+        #{displaySeq,jdbcType=SMALLINT},
+      </if>
+      <if test="pkBsParent != null" >
+        #{pkBsParent,jdbcType=CHAR},
+      </if>
+      <if test="seriescode != null" >
+        #{seriescode,jdbcType=VARCHAR},
+      </if>
+      <if test="mappingRegex != null" >
+        #{mappingRegex,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=SMALLINT},
+      </if>
+      <if test="pkCreator != null" >
+        #{pkCreator,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pkMender != null" >
+        #{pkMender,jdbcType=CHAR},
+      </if>
+      <if test="mendTimeLast != null" >
+        #{mendTimeLast,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ultrapower.pojo.AmBsGroupExample" resultType="java.lang.Integer" >
+    select count(*) from am_bs_group
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update am_bs_group
+    <set >
+      <if test="record.pkBsGroup != null" >
+        PK_BS_GROUP = #{record.pkBsGroup,jdbcType=CHAR},
+      </if>
+      <if test="record.bsName != null" >
+        BS_NAME = #{record.bsName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bsCode != null" >
+        BS_CODE = #{record.bsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bsDesc != null" >
+        BS_DESC = #{record.bsDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fullName != null" >
+        FULL_NAME = #{record.fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bsSrc != null" >
+        BS_SRC = #{record.bsSrc,jdbcType=SMALLINT},
+      </if>
+      <if test="record.displaySeq != null" >
+        DISPLAY_SEQ = #{record.displaySeq,jdbcType=SMALLINT},
+      </if>
+      <if test="record.pkBsParent != null" >
+        PK_BS_PARENT = #{record.pkBsParent,jdbcType=CHAR},
+      </if>
+      <if test="record.seriescode != null" >
+        SERIESCODE = #{record.seriescode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mappingRegex != null" >
+        MAPPING_REGEX = #{record.mappingRegex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDeleted != null" >
+        IS_DELETED = #{record.isDeleted,jdbcType=SMALLINT},
+      </if>
+      <if test="record.pkCreator != null" >
+        PK_CREATOR = #{record.pkCreator,jdbcType=CHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pkMender != null" >
+        PK_MENDER = #{record.pkMender,jdbcType=CHAR},
+      </if>
+      <if test="record.mendTimeLast != null" >
+        MEND_TIME_LAST = #{record.mendTimeLast,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update am_bs_group
+    set PK_BS_GROUP = #{record.pkBsGroup,jdbcType=CHAR},
+      BS_NAME = #{record.bsName,jdbcType=VARCHAR},
+      BS_CODE = #{record.bsCode,jdbcType=VARCHAR},
+      BS_DESC = #{record.bsDesc,jdbcType=VARCHAR},
+      FULL_NAME = #{record.fullName,jdbcType=VARCHAR},
+      BS_SRC = #{record.bsSrc,jdbcType=SMALLINT},
+      DISPLAY_SEQ = #{record.displaySeq,jdbcType=SMALLINT},
+      PK_BS_PARENT = #{record.pkBsParent,jdbcType=CHAR},
+      SERIESCODE = #{record.seriescode,jdbcType=VARCHAR},
+      MAPPING_REGEX = #{record.mappingRegex,jdbcType=VARCHAR},
+      IS_DELETED = #{record.isDeleted,jdbcType=SMALLINT},
+      PK_CREATOR = #{record.pkCreator,jdbcType=CHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      PK_MENDER = #{record.pkMender,jdbcType=CHAR},
+      MEND_TIME_LAST = #{record.mendTimeLast,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ultrapower.pojo.AmBsGroup" >
+    update am_bs_group
+    <set >
+      <if test="bsName != null" >
+        BS_NAME = #{bsName,jdbcType=VARCHAR},
+      </if>
+      <if test="bsCode != null" >
+        BS_CODE = #{bsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bsDesc != null" >
+        BS_DESC = #{bsDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="fullName != null" >
+        FULL_NAME = #{fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="bsSrc != null" >
+        BS_SRC = #{bsSrc,jdbcType=SMALLINT},
+      </if>
+      <if test="displaySeq != null" >
+        DISPLAY_SEQ = #{displaySeq,jdbcType=SMALLINT},
+      </if>
+      <if test="pkBsParent != null" >
+        PK_BS_PARENT = #{pkBsParent,jdbcType=CHAR},
+      </if>
+      <if test="seriescode != null" >
+        SERIESCODE = #{seriescode,jdbcType=VARCHAR},
+      </if>
+      <if test="mappingRegex != null" >
+        MAPPING_REGEX = #{mappingRegex,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=SMALLINT},
+      </if>
+      <if test="pkCreator != null" >
+        PK_CREATOR = #{pkCreator,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pkMender != null" >
+        PK_MENDER = #{pkMender,jdbcType=CHAR},
+      </if>
+      <if test="mendTimeLast != null" >
+        MEND_TIME_LAST = #{mendTimeLast,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_BS_GROUP = #{pkBsGroup,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ultrapower.pojo.AmBsGroup" >
+    update am_bs_group
+    set BS_NAME = #{bsName,jdbcType=VARCHAR},
+      BS_CODE = #{bsCode,jdbcType=VARCHAR},
+      BS_DESC = #{bsDesc,jdbcType=VARCHAR},
+      FULL_NAME = #{fullName,jdbcType=VARCHAR},
+      BS_SRC = #{bsSrc,jdbcType=SMALLINT},
+      DISPLAY_SEQ = #{displaySeq,jdbcType=SMALLINT},
+      PK_BS_PARENT = #{pkBsParent,jdbcType=CHAR},
+      SERIESCODE = #{seriescode,jdbcType=VARCHAR},
+      MAPPING_REGEX = #{mappingRegex,jdbcType=VARCHAR},
+      IS_DELETED = #{isDeleted,jdbcType=SMALLINT},
+      PK_CREATOR = #{pkCreator,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      PK_MENDER = #{pkMender,jdbcType=CHAR},
+      MEND_TIME_LAST = #{mendTimeLast,jdbcType=TIMESTAMP}
+    where PK_BS_GROUP = #{pkBsGroup,jdbcType=CHAR}
+  </update>
+
+  <select id="initBsGroupTree" resultMap="initBsGroupTreeMap">
+    SELECT
+a.*,
+b.`PK_BS_GROUP` AS b_pk ,b.`BS_NAME` AS b_name,b.`PK_BS_PARENT` AS b_parent,
+c.`PK_BS_GROUP` AS c_pk ,c.`BS_NAME` AS c_name,c.`PK_BS_PARENT` AS c_parent
+ FROM
+(SELECT t.`PK_BS_GROUP`,t.`BS_NAME`,t.`PK_BS_PARENT` FROM `am_bs_group` AS t WHERE t.`PK_BS_PARENT` IS NULL) a
+LEFT JOIN `am_bs_group` AS b ON b.`PK_BS_PARENT` = a. `PK_BS_GROUP`
+LEFT JOIN `am_bs_group` AS c ON c.`PK_BS_PARENT` = b. `PK_BS_GROUP`
+  </select>
+
+  <resultMap id="initBsGroupTreeMap" type="com.ultrapower.pojo.BsGroupVO">
+    <result column="PK_BS_GROUP" property="pkBsGroup" />
+    <result column="BS_NAME" property="bsName" />
+    <result column="PK_BS_PARENT" property="pkBsParent" />
+    <collection property="second" ofType="com.ultrapower.pojo.BsGroupVO">
+      <result column="b_pk" property="pkBsGroup" />
+      <result column="b_name" property="bsName" />
+      <result column="b_parent" property="pkBsParent" />
+      <collection property="third" ofType="com.ultrapower.pojo.BsGroupVO">
+        <result column="c_pk" property="pkBsGroup" />
+        <result column="c_name" property="bsName" />
+        <result column="c_parent" property="pkBsParent" />
+      </collection>
+    </collection>
+  </resultMap>
+
+
+</mapper>

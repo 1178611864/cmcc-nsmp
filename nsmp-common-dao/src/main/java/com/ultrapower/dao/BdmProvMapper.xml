@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ultrapower.dao.BdmProvMapper" >
+  <resultMap id="BaseResultMap" type="com.ultrapower.pojo.BdmProv" >
+    <id column="PK_PROV" property="pkProv" jdbcType="CHAR" />
+    <result column="PROV_NAME" property="provName" jdbcType="VARCHAR" />
+    <result column="PROV_CODE" property="provCode" jdbcType="VARCHAR" />
+    <result column="PROV_DESC" property="provDesc" jdbcType="VARCHAR" />
+    <result column="PROV_STATE" property="provState" jdbcType="SMALLINT" />
+    <result column="JUDGE_REGEX" property="judgeRegex" jdbcType="VARCHAR" />
+    <result column="PK_CREATOR" property="pkCreator" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="PK_MENDER" property="pkMender" jdbcType="CHAR" />
+    <result column="MEND_TIME_LAST" property="mendTimeLast" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    PK_PROV, PROV_NAME, PROV_CODE, PROV_DESC, PROV_STATE, JUDGE_REGEX, PK_CREATOR, CREATE_TIME, 
+    PK_MENDER, MEND_TIME_LAST
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ultrapower.pojo.BdmProvExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from bdm_prov
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bdm_prov
+    where PK_PROV = #{pkProv,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bdm_prov
+    where PK_PROV = #{pkProv,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ultrapower.pojo.BdmProvExample" >
+    delete from bdm_prov
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ultrapower.pojo.BdmProv" >
+    insert into bdm_prov (PK_PROV, PROV_NAME, PROV_CODE, 
+      PROV_DESC, PROV_STATE, JUDGE_REGEX, 
+      PK_CREATOR, CREATE_TIME, PK_MENDER, 
+      MEND_TIME_LAST)
+    values (#{pkProv,jdbcType=CHAR}, #{provName,jdbcType=VARCHAR}, #{provCode,jdbcType=VARCHAR}, 
+      #{provDesc,jdbcType=VARCHAR}, #{provState,jdbcType=SMALLINT}, #{judgeRegex,jdbcType=VARCHAR}, 
+      #{pkCreator,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{pkMender,jdbcType=CHAR}, 
+      #{mendTimeLast,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ultrapower.pojo.BdmProv" >
+    insert into bdm_prov
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkProv != null" >
+        PK_PROV,
+      </if>
+      <if test="provName != null" >
+        PROV_NAME,
+      </if>
+      <if test="provCode != null" >
+        PROV_CODE,
+      </if>
+      <if test="provDesc != null" >
+        PROV_DESC,
+      </if>
+      <if test="provState != null" >
+        PROV_STATE,
+      </if>
+      <if test="judgeRegex != null" >
+        JUDGE_REGEX,
+      </if>
+      <if test="pkCreator != null" >
+        PK_CREATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="pkMender != null" >
+        PK_MENDER,
+      </if>
+      <if test="mendTimeLast != null" >
+        MEND_TIME_LAST,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkProv != null" >
+        #{pkProv,jdbcType=CHAR},
+      </if>
+      <if test="provName != null" >
+        #{provName,jdbcType=VARCHAR},
+      </if>
+      <if test="provCode != null" >
+        #{provCode,jdbcType=VARCHAR},
+      </if>
+      <if test="provDesc != null" >
+        #{provDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="provState != null" >
+        #{provState,jdbcType=SMALLINT},
+      </if>
+      <if test="judgeRegex != null" >
+        #{judgeRegex,jdbcType=VARCHAR},
+      </if>
+      <if test="pkCreator != null" >
+        #{pkCreator,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pkMender != null" >
+        #{pkMender,jdbcType=CHAR},
+      </if>
+      <if test="mendTimeLast != null" >
+        #{mendTimeLast,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ultrapower.pojo.BdmProvExample" resultType="java.lang.Integer" >
+    select count(*) from bdm_prov
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update bdm_prov
+    <set >
+      <if test="record.pkProv != null" >
+        PK_PROV = #{record.pkProv,jdbcType=CHAR},
+      </if>
+      <if test="record.provName != null" >
+        PROV_NAME = #{record.provName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provCode != null" >
+        PROV_CODE = #{record.provCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provDesc != null" >
+        PROV_DESC = #{record.provDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provState != null" >
+        PROV_STATE = #{record.provState,jdbcType=SMALLINT},
+      </if>
+      <if test="record.judgeRegex != null" >
+        JUDGE_REGEX = #{record.judgeRegex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pkCreator != null" >
+        PK_CREATOR = #{record.pkCreator,jdbcType=CHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pkMender != null" >
+        PK_MENDER = #{record.pkMender,jdbcType=CHAR},
+      </if>
+      <if test="record.mendTimeLast != null" >
+        MEND_TIME_LAST = #{record.mendTimeLast,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update bdm_prov
+    set PK_PROV = #{record.pkProv,jdbcType=CHAR},
+      PROV_NAME = #{record.provName,jdbcType=VARCHAR},
+      PROV_CODE = #{record.provCode,jdbcType=VARCHAR},
+      PROV_DESC = #{record.provDesc,jdbcType=VARCHAR},
+      PROV_STATE = #{record.provState,jdbcType=SMALLINT},
+      JUDGE_REGEX = #{record.judgeRegex,jdbcType=VARCHAR},
+      PK_CREATOR = #{record.pkCreator,jdbcType=CHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      PK_MENDER = #{record.pkMender,jdbcType=CHAR},
+      MEND_TIME_LAST = #{record.mendTimeLast,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ultrapower.pojo.BdmProv" >
+    update bdm_prov
+    <set >
+      <if test="provName != null" >
+        PROV_NAME = #{provName,jdbcType=VARCHAR},
+      </if>
+      <if test="provCode != null" >
+        PROV_CODE = #{provCode,jdbcType=VARCHAR},
+      </if>
+      <if test="provDesc != null" >
+        PROV_DESC = #{provDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="provState != null" >
+        PROV_STATE = #{provState,jdbcType=SMALLINT},
+      </if>
+      <if test="judgeRegex != null" >
+        JUDGE_REGEX = #{judgeRegex,jdbcType=VARCHAR},
+      </if>
+      <if test="pkCreator != null" >
+        PK_CREATOR = #{pkCreator,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pkMender != null" >
+        PK_MENDER = #{pkMender,jdbcType=CHAR},
+      </if>
+      <if test="mendTimeLast != null" >
+        MEND_TIME_LAST = #{mendTimeLast,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_PROV = #{pkProv,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ultrapower.pojo.BdmProv" >
+    update bdm_prov
+    set PROV_NAME = #{provName,jdbcType=VARCHAR},
+      PROV_CODE = #{provCode,jdbcType=VARCHAR},
+      PROV_DESC = #{provDesc,jdbcType=VARCHAR},
+      PROV_STATE = #{provState,jdbcType=SMALLINT},
+      JUDGE_REGEX = #{judgeRegex,jdbcType=VARCHAR},
+      PK_CREATOR = #{pkCreator,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      PK_MENDER = #{pkMender,jdbcType=CHAR},
+      MEND_TIME_LAST = #{mendTimeLast,jdbcType=TIMESTAMP}
+    where PK_PROV = #{pkProv,jdbcType=CHAR}
+  </update>
+</mapper>

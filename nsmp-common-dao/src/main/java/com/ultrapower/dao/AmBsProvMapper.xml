@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ultrapower.dao.AmBsProvMapper" >
+  <resultMap id="BaseResultMap" type="com.ultrapower.pojo.AmBsProv" >
+    <id column="PK_BS_PROV" property="pkBsProv" jdbcType="CHAR" />
+    <result column="PROV_CODE" property="provCode" jdbcType="VARCHAR" />
+    <result column="BS_NAME" property="bsName" jdbcType="VARCHAR" />
+    <result column="BS_CODE" property="bsCode" jdbcType="VARCHAR" />
+    <result column="BS_DESC" property="bsDesc" jdbcType="VARCHAR" />
+    <result column="FULL_NAME" property="fullName" jdbcType="VARCHAR" />
+    <result column="BS_SRC" property="bsSrc" jdbcType="SMALLINT" />
+    <result column="FOREIGN_ID" property="foreignId" jdbcType="VARCHAR" />
+    <result column="DISPLAY_SEQ" property="displaySeq" jdbcType="SMALLINT" />
+    <result column="PK_BS_PARENT" property="pkBsParent" jdbcType="CHAR" />
+    <result column="SERIESCODE" property="seriescode" jdbcType="VARCHAR" />
+    <result column="BS_TYPE" property="bsType" jdbcType="VARCHAR" />
+    <result column="BS_VER" property="bsVer" jdbcType="VARCHAR" />
+    <result column="SEC_GRADE" property="secGrade" jdbcType="VARCHAR" />
+    <result column="INFLUENCE" property="influence" jdbcType="VARCHAR" />
+    <result column="SRV_RANGE" property="srvRange" jdbcType="VARCHAR" />
+    <result column="IMPORTANCE" property="importance" jdbcType="VARCHAR" />
+    <result column="MANAGE_URL" property="manageUrl" jdbcType="VARCHAR" />
+    <result column="VENDOR" property="vendor" jdbcType="VARCHAR" />
+    <result column="ADMIN_NAME" property="adminName" jdbcType="VARCHAR" />
+    <result column="CONTACT_INFO" property="contactInfo" jdbcType="VARCHAR" />
+    <result column="LOCATION" property="location" jdbcType="VARCHAR" />
+    <result column="BS_BACKUP" property="bsBackup" jdbcType="VARCHAR" />
+    <result column="SEC_ZONE" property="secZone" jdbcType="VARCHAR" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="SMALLINT" />
+    <result column="PK_CREATOR" property="pkCreator" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="PK_MENDER" property="pkMender" jdbcType="CHAR" />
+    <result column="MEND_TIME_LAST" property="mendTimeLast" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    PK_BS_PROV, PROV_CODE, BS_NAME, BS_CODE, BS_DESC, FULL_NAME, BS_SRC, FOREIGN_ID, 
+    DISPLAY_SEQ, PK_BS_PARENT, SERIESCODE, BS_TYPE, BS_VER, SEC_GRADE, INFLUENCE, SRV_RANGE, 
+    IMPORTANCE, MANAGE_URL, VENDOR, ADMIN_NAME, CONTACT_INFO, LOCATION, BS_BACKUP, SEC_ZONE, 
+    IS_DELETED, PK_CREATOR, CREATE_TIME, PK_MENDER, MEND_TIME_LAST
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ultrapower.pojo.AmBsProvExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from am_bs_prov
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from am_bs_prov
+    where PK_BS_PROV = #{pkBsProv,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from am_bs_prov
+    where PK_BS_PROV = #{pkBsProv,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ultrapower.pojo.AmBsProvExample" >
+    delete from am_bs_prov
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ultrapower.pojo.AmBsProv" >
+    insert into am_bs_prov (PK_BS_PROV, PROV_CODE, BS_NAME, 
+      BS_CODE, BS_DESC, FULL_NAME, 
+      BS_SRC, FOREIGN_ID, DISPLAY_SEQ, 
+      PK_BS_PARENT, SERIESCODE, BS_TYPE, 
+      BS_VER, SEC_GRADE, INFLUENCE, 
+      SRV_RANGE, IMPORTANCE, MANAGE_URL, 
+      VENDOR, ADMIN_NAME, CONTACT_INFO, 
+      LOCATION, BS_BACKUP, SEC_ZONE, 
+      IS_DELETED, PK_CREATOR, CREATE_TIME, 
+      PK_MENDER, MEND_TIME_LAST)
+    values (#{pkBsProv,jdbcType=CHAR}, #{provCode,jdbcType=VARCHAR}, #{bsName,jdbcType=VARCHAR}, 
+      #{bsCode,jdbcType=VARCHAR}, #{bsDesc,jdbcType=VARCHAR}, #{fullName,jdbcType=VARCHAR}, 
+      #{bsSrc,jdbcType=SMALLINT}, #{foreignId,jdbcType=VARCHAR}, #{displaySeq,jdbcType=SMALLINT}, 
+      #{pkBsParent,jdbcType=CHAR}, #{seriescode,jdbcType=VARCHAR}, #{bsType,jdbcType=VARCHAR}, 
+      #{bsVer,jdbcType=VARCHAR}, #{secGrade,jdbcType=VARCHAR}, #{influence,jdbcType=VARCHAR}, 
+      #{srvRange,jdbcType=VARCHAR}, #{importance,jdbcType=VARCHAR}, #{manageUrl,jdbcType=VARCHAR}, 
+      #{vendor,jdbcType=VARCHAR}, #{adminName,jdbcType=VARCHAR}, #{contactInfo,jdbcType=VARCHAR}, 
+      #{location,jdbcType=VARCHAR}, #{bsBackup,jdbcType=VARCHAR}, #{secZone,jdbcType=VARCHAR}, 
+      #{isDeleted,jdbcType=SMALLINT}, #{pkCreator,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{pkMender,jdbcType=CHAR}, #{mendTimeLast,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ultrapower.pojo.AmBsProv" >
+    insert into am_bs_prov
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkBsProv != null" >
+        PK_BS_PROV,
+      </if>
+      <if test="provCode != null" >
+        PROV_CODE,
+      </if>
+      <if test="bsName != null" >
+        BS_NAME,
+      </if>
+      <if test="bsCode != null" >
+        BS_CODE,
+      </if>
+      <if test="bsDesc != null" >
+        BS_DESC,
+      </if>
+      <if test="fullName != null" >
+        FULL_NAME,
+      </if>
+      <if test="bsSrc != null" >
+        BS_SRC,
+      </if>
+      <if test="foreignId != null" >
+        FOREIGN_ID,
+      </if>
+      <if test="displaySeq != null" >
+        DISPLAY_SEQ,
+      </if>
+      <if test="pkBsParent != null" >
+        PK_BS_PARENT,
+      </if>
+      <if test="seriescode != null" >
+        SERIESCODE,
+      </if>
+      <if test="bsType != null" >
+        BS_TYPE,
+      </if>
+      <if test="bsVer != null" >
+        BS_VER,
+      </if>
+      <if test="secGrade != null" >
+        SEC_GRADE,
+      </if>
+      <if test="influence != null" >
+        INFLUENCE,
+      </if>
+      <if test="srvRange != null" >
+        SRV_RANGE,
+      </if>
+      <if test="importance != null" >
+        IMPORTANCE,
+      </if>
+      <if test="manageUrl != null" >
+        MANAGE_URL,
+      </if>
+      <if test="vendor != null" >
+        VENDOR,
+      </if>
+      <if test="adminName != null" >
+        ADMIN_NAME,
+      </if>
+      <if test="contactInfo != null" >
+        CONTACT_INFO,
+      </if>
+      <if test="location != null" >
+        LOCATION,
+      </if>
+      <if test="bsBackup != null" >
+        BS_BACKUP,
+      </if>
+      <if test="secZone != null" >
+        SEC_ZONE,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+      <if test="pkCreator != null" >
+        PK_CREATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="pkMender != null" >
+        PK_MENDER,
+      </if>
+      <if test="mendTimeLast != null" >
+        MEND_TIME_LAST,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkBsProv != null" >
+        #{pkBsProv,jdbcType=CHAR},
+      </if>
+      <if test="provCode != null" >
+        #{provCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bsName != null" >
+        #{bsName,jdbcType=VARCHAR},
+      </if>
+      <if test="bsCode != null" >
+        #{bsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bsDesc != null" >
+        #{bsDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="fullName != null" >
+        #{fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="bsSrc != null" >
+        #{bsSrc,jdbcType=SMALLINT},
+      </if>
+      <if test="foreignId != null" >
+        #{foreignId,jdbcType=VARCHAR},
+      </if>
+      <if test="displaySeq != null" >
+        #{displaySeq,jdbcType=SMALLINT},
+      </if>
+      <if test="pkBsParent != null" >
+        #{pkBsParent,jdbcType=CHAR},
+      </if>
+      <if test="seriescode != null" >
+        #{seriescode,jdbcType=VARCHAR},
+      </if>
+      <if test="bsType != null" >
+        #{bsType,jdbcType=VARCHAR},
+      </if>
+      <if test="bsVer != null" >
+        #{bsVer,jdbcType=VARCHAR},
+      </if>
+      <if test="secGrade != null" >
+        #{secGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="influence != null" >
+        #{influence,jdbcType=VARCHAR},
+      </if>
+      <if test="srvRange != null" >
+        #{srvRange,jdbcType=VARCHAR},
+      </if>
+      <if test="importance != null" >
+        #{importance,jdbcType=VARCHAR},
+      </if>
+      <if test="manageUrl != null" >
+        #{manageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="vendor != null" >
+        #{vendor,jdbcType=VARCHAR},
+      </if>
+      <if test="adminName != null" >
+        #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactInfo != null" >
+        #{contactInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="bsBackup != null" >
+        #{bsBackup,jdbcType=VARCHAR},
+      </if>
+      <if test="secZone != null" >
+        #{secZone,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=SMALLINT},
+      </if>
+      <if test="pkCreator != null" >
+        #{pkCreator,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pkMender != null" >
+        #{pkMender,jdbcType=CHAR},
+      </if>
+      <if test="mendTimeLast != null" >
+        #{mendTimeLast,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ultrapower.pojo.AmBsProvExample" resultType="java.lang.Integer" >
+    select count(*) from am_bs_prov
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update am_bs_prov
+    <set >
+      <if test="record.pkBsProv != null" >
+        PK_BS_PROV = #{record.pkBsProv,jdbcType=CHAR},
+      </if>
+      <if test="record.provCode != null" >
+        PROV_CODE = #{record.provCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bsName != null" >
+        BS_NAME = #{record.bsName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bsCode != null" >
+        BS_CODE = #{record.bsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bsDesc != null" >
+        BS_DESC = #{record.bsDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fullName != null" >
+        FULL_NAME = #{record.fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bsSrc != null" >
+        BS_SRC = #{record.bsSrc,jdbcType=SMALLINT},
+      </if>
+      <if test="record.foreignId != null" >
+        FOREIGN_ID = #{record.foreignId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.displaySeq != null" >
+        DISPLAY_SEQ = #{record.displaySeq,jdbcType=SMALLINT},
+      </if>
+      <if test="record.pkBsParent != null" >
+        PK_BS_PARENT = #{record.pkBsParent,jdbcType=CHAR},
+      </if>
+      <if test="record.seriescode != null" >
+        SERIESCODE = #{record.seriescode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bsType != null" >
+        BS_TYPE = #{record.bsType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bsVer != null" >
+        BS_VER = #{record.bsVer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.secGrade != null" >
+        SEC_GRADE = #{record.secGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.influence != null" >
+        INFLUENCE = #{record.influence,jdbcType=VARCHAR},
+      </if>
+      <if test="record.srvRange != null" >
+        SRV_RANGE = #{record.srvRange,jdbcType=VARCHAR},
+      </if>
+      <if test="record.importance != null" >
+        IMPORTANCE = #{record.importance,jdbcType=VARCHAR},
+      </if>
+      <if test="record.manageUrl != null" >
+        MANAGE_URL = #{record.manageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vendor != null" >
+        VENDOR = #{record.vendor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminName != null" >
+        ADMIN_NAME = #{record.adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactInfo != null" >
+        CONTACT_INFO = #{record.contactInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.location != null" >
+        LOCATION = #{record.location,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bsBackup != null" >
+        BS_BACKUP = #{record.bsBackup,jdbcType=VARCHAR},
+      </if>
+      <if test="record.secZone != null" >
+        SEC_ZONE = #{record.secZone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDeleted != null" >
+        IS_DELETED = #{record.isDeleted,jdbcType=SMALLINT},
+      </if>
+      <if test="record.pkCreator != null" >
+        PK_CREATOR = #{record.pkCreator,jdbcType=CHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pkMender != null" >
+        PK_MENDER = #{record.pkMender,jdbcType=CHAR},
+      </if>
+      <if test="record.mendTimeLast != null" >
+        MEND_TIME_LAST = #{record.mendTimeLast,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update am_bs_prov
+    set PK_BS_PROV = #{record.pkBsProv,jdbcType=CHAR},
+      PROV_CODE = #{record.provCode,jdbcType=VARCHAR},
+      BS_NAME = #{record.bsName,jdbcType=VARCHAR},
+      BS_CODE = #{record.bsCode,jdbcType=VARCHAR},
+      BS_DESC = #{record.bsDesc,jdbcType=VARCHAR},
+      FULL_NAME = #{record.fullName,jdbcType=VARCHAR},
+      BS_SRC = #{record.bsSrc,jdbcType=SMALLINT},
+      FOREIGN_ID = #{record.foreignId,jdbcType=VARCHAR},
+      DISPLAY_SEQ = #{record.displaySeq,jdbcType=SMALLINT},
+      PK_BS_PARENT = #{record.pkBsParent,jdbcType=CHAR},
+      SERIESCODE = #{record.seriescode,jdbcType=VARCHAR},
+      BS_TYPE = #{record.bsType,jdbcType=VARCHAR},
+      BS_VER = #{record.bsVer,jdbcType=VARCHAR},
+      SEC_GRADE = #{record.secGrade,jdbcType=VARCHAR},
+      INFLUENCE = #{record.influence,jdbcType=VARCHAR},
+      SRV_RANGE = #{record.srvRange,jdbcType=VARCHAR},
+      IMPORTANCE = #{record.importance,jdbcType=VARCHAR},
+      MANAGE_URL = #{record.manageUrl,jdbcType=VARCHAR},
+      VENDOR = #{record.vendor,jdbcType=VARCHAR},
+      ADMIN_NAME = #{record.adminName,jdbcType=VARCHAR},
+      CONTACT_INFO = #{record.contactInfo,jdbcType=VARCHAR},
+      LOCATION = #{record.location,jdbcType=VARCHAR},
+      BS_BACKUP = #{record.bsBackup,jdbcType=VARCHAR},
+      SEC_ZONE = #{record.secZone,jdbcType=VARCHAR},
+      IS_DELETED = #{record.isDeleted,jdbcType=SMALLINT},
+      PK_CREATOR = #{record.pkCreator,jdbcType=CHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      PK_MENDER = #{record.pkMender,jdbcType=CHAR},
+      MEND_TIME_LAST = #{record.mendTimeLast,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ultrapower.pojo.AmBsProv" >
+    update am_bs_prov
+    <set >
+      <if test="provCode != null" >
+        PROV_CODE = #{provCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bsName != null" >
+        BS_NAME = #{bsName,jdbcType=VARCHAR},
+      </if>
+      <if test="bsCode != null" >
+        BS_CODE = #{bsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bsDesc != null" >
+        BS_DESC = #{bsDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="fullName != null" >
+        FULL_NAME = #{fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="bsSrc != null" >
+        BS_SRC = #{bsSrc,jdbcType=SMALLINT},
+      </if>
+      <if test="foreignId != null" >
+        FOREIGN_ID = #{foreignId,jdbcType=VARCHAR},
+      </if>
+      <if test="displaySeq != null" >
+        DISPLAY_SEQ = #{displaySeq,jdbcType=SMALLINT},
+      </if>
+      <if test="pkBsParent != null" >
+        PK_BS_PARENT = #{pkBsParent,jdbcType=CHAR},
+      </if>
+      <if test="seriescode != null" >
+        SERIESCODE = #{seriescode,jdbcType=VARCHAR},
+      </if>
+      <if test="bsType != null" >
+        BS_TYPE = #{bsType,jdbcType=VARCHAR},
+      </if>
+      <if test="bsVer != null" >
+        BS_VER = #{bsVer,jdbcType=VARCHAR},
+      </if>
+      <if test="secGrade != null" >
+        SEC_GRADE = #{secGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="influence != null" >
+        INFLUENCE = #{influence,jdbcType=VARCHAR},
+      </if>
+      <if test="srvRange != null" >
+        SRV_RANGE = #{srvRange,jdbcType=VARCHAR},
+      </if>
+      <if test="importance != null" >
+        IMPORTANCE = #{importance,jdbcType=VARCHAR},
+      </if>
+      <if test="manageUrl != null" >
+        MANAGE_URL = #{manageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="vendor != null" >
+        VENDOR = #{vendor,jdbcType=VARCHAR},
+      </if>
+      <if test="adminName != null" >
+        ADMIN_NAME = #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactInfo != null" >
+        CONTACT_INFO = #{contactInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        LOCATION = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="bsBackup != null" >
+        BS_BACKUP = #{bsBackup,jdbcType=VARCHAR},
+      </if>
+      <if test="secZone != null" >
+        SEC_ZONE = #{secZone,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=SMALLINT},
+      </if>
+      <if test="pkCreator != null" >
+        PK_CREATOR = #{pkCreator,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pkMender != null" >
+        PK_MENDER = #{pkMender,jdbcType=CHAR},
+      </if>
+      <if test="mendTimeLast != null" >
+        MEND_TIME_LAST = #{mendTimeLast,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_BS_PROV = #{pkBsProv,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ultrapower.pojo.AmBsProv" >
+    update am_bs_prov
+    set PROV_CODE = #{provCode,jdbcType=VARCHAR},
+      BS_NAME = #{bsName,jdbcType=VARCHAR},
+      BS_CODE = #{bsCode,jdbcType=VARCHAR},
+      BS_DESC = #{bsDesc,jdbcType=VARCHAR},
+      FULL_NAME = #{fullName,jdbcType=VARCHAR},
+      BS_SRC = #{bsSrc,jdbcType=SMALLINT},
+      FOREIGN_ID = #{foreignId,jdbcType=VARCHAR},
+      DISPLAY_SEQ = #{displaySeq,jdbcType=SMALLINT},
+      PK_BS_PARENT = #{pkBsParent,jdbcType=CHAR},
+      SERIESCODE = #{seriescode,jdbcType=VARCHAR},
+      BS_TYPE = #{bsType,jdbcType=VARCHAR},
+      BS_VER = #{bsVer,jdbcType=VARCHAR},
+      SEC_GRADE = #{secGrade,jdbcType=VARCHAR},
+      INFLUENCE = #{influence,jdbcType=VARCHAR},
+      SRV_RANGE = #{srvRange,jdbcType=VARCHAR},
+      IMPORTANCE = #{importance,jdbcType=VARCHAR},
+      MANAGE_URL = #{manageUrl,jdbcType=VARCHAR},
+      VENDOR = #{vendor,jdbcType=VARCHAR},
+      ADMIN_NAME = #{adminName,jdbcType=VARCHAR},
+      CONTACT_INFO = #{contactInfo,jdbcType=VARCHAR},
+      LOCATION = #{location,jdbcType=VARCHAR},
+      BS_BACKUP = #{bsBackup,jdbcType=VARCHAR},
+      SEC_ZONE = #{secZone,jdbcType=VARCHAR},
+      IS_DELETED = #{isDeleted,jdbcType=SMALLINT},
+      PK_CREATOR = #{pkCreator,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      PK_MENDER = #{pkMender,jdbcType=CHAR},
+      MEND_TIME_LAST = #{mendTimeLast,jdbcType=TIMESTAMP}
+    where PK_BS_PROV = #{pkBsProv,jdbcType=CHAR}
+  </update>
+
+  <select id="initBsProvTree" resultMap="initBsProvTreeMap">
+SELECT a.*,b.`PK_BS_PROV` AS B_PROV,b.`PROV_CODE` AS B_CODE,b.`BS_NAME` AS B_NAME,b.`PK_BS_PARENT` AS B_PARENT  FROM (SELECT t.`PK_BS_PROV`,t.`PROV_CODE`,t.`BS_NAME`,t.`PK_BS_PARENT` FROM `am_bs_prov` AS t WHERE t.`PK_BS_PARENT` IS NULL) a
+LEFT JOIN `am_bs_prov` AS b ON b.`PK_BS_PARENT`=a.PK_BS_PROV
+  </select>
+  <resultMap id="initBsProvTreeMap" type="com.ultrapower.pojo.BsProvVO">
+    <result property="pkBsProv" column="PK_BS_PROV"/>
+    <result property="provCode" column="PROV_CODE"/>
+    <result property="bsName" column="BS_NAME"/>
+    <result property="pkBsParent" column="PK_BS_PARENT"/>
+    <collection property="second" ofType="com.ultrapower.pojo.BsProvVO">
+      <result property="pkBsProv" column="B_PROV"/>
+      <result property="provCode" column="B_CODE"/>
+      <result property="bsName" column="B_NAME"/>
+      <result property="pkBsParent" column="B_PARENT"/>
+    </collection>
+  </resultMap>
+</mapper>

@@ -1,0 +1,90 @@
+function datadel() {
+        var arr=[];
+        $("[name = ids]:checkbox").each(function(){
+            if ($(this).prop("checked") == true){
+                arr.push($(this).val());
+            }
+        })
+	alert(arr.toString());
+        $.ajax({
+		url:'aaa?ids='+arr,
+		type:'get',
+		success:function () {
+			location.reload();
+            	}
+
+	});
+    }
+
+$("input[name='items']:checked").val();
+
+
+
+
+
+---------------------
+
+submitHandler:function(form){
+		    alert('�ύ��');
+            var aaa= $("#form-member-add").serialize();
+username=tom&sex=nan&sxxxxx
+            alert(data)
+			$.ajax({
+				type:'post',
+				url:'bbb',
+				data:aaa,
+				success:function (aa) {
+					alert(aa);
+                    //$(form).ajaxSubmit();
+                    var index = parent.layer.getFrameIndex(window.name);
+                    //parent.$('.btn-refresh').click();
+
+                    parent.layer.close(index);
+
+                }
+			})
+
+		}
+
+
+
+
+
+
+
+		------------------
+
+$("#btnSend").click(function() {
+    $("#request-process-patent").html("正在提交数据，请勿关闭当前窗口...");
+    $.ajax({
+        type: "POST",
+        url: "RequestData.ashx",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(GetJsonData()),
+        dataType: "json",
+        success: function (message) {
+            if (message > 0) {
+                alert("请求已提交！我们会尽快与您取得联系");
+            }
+        },
+        error: function (message) {
+            $("#request-process-patent").html("提交数据失败！");
+        }
+    });
+});
+
+function GetJsonData() {
+    var json = {
+        "classid": 2,
+        "name": $("#tb_name").val(),
+        "zlclass": "测试类型1,测试类型2,测试类型3",
+        "pname": $("#tb_contact_people").val(),
+        "tel": $("#tb_contact_phone").val()
+    };
+    return json;
+}
+
+
+
+ data:{"username":"chen","nickname":"alien"},
+ data:"username=chen&nickname=alien",

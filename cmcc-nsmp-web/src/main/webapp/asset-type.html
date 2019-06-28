@@ -1,0 +1,275 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<script type="text/javascript" src="common.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" href="lib/zTree/v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>产品分类</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 资产类型管理 <span class="c-gray en">&gt;</span> 资产类型树 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<table class="table">
+	<tr>
+		<td width="200" class="va-t"><ul id="treeDemo" class="ztree"></ul></td>
+		<td>
+			<div id="f"></div>
+		</td>
+	</tr>
+</table>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/zTree/v3/js/jquery.ztree.all-3.5.min.js"></script> 
+<script type="text/javascript">
+var setting = {
+	view: {
+		dblClickExpand: false,
+		showLine: false,
+		selectedMulti: false
+	},
+	data: {
+		simpleData: {
+			enable:true,
+			idKey: "id",
+			pIdKey: "pId",
+			rootPId: ""
+		}
+	},
+	callback: {
+		beforeClick: function(treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("tree");
+			//根据分类名称查询对应的详细信息(分类名称不能重复)
+			var name = treeNode.name;
+
+			//点击某个结点，将当前结点name名称（类型名称）存一个cookie
+			$.cookie("current_node_click",name);
+
+			$.ajax({
+				//url:'findAmAssetTypeByName?name='+name,
+				url:'findAmAssetTypeAndPropListByName?name='+name,
+				dataType:'json',
+				success:function (data) {
+                    showAssetTypeDetail(data.amAssetType);
+                    showAssetTypePropList(data.propList);
+                },
+				error:function () {
+					alert('加载分类详情失败')
+                }
+
+			});
+
+		}
+	}
+};
+
+var zNodes =[];
+		
+var code;
+		
+function showCode(str) {
+	if (!code) code = $("#code");
+	code.empty();
+	code.append("<li>"+str+"</li>");
+}
+		
+$(document).ready(function(){
+	var t = $("#treeDemo");
+
+	$.ajax({
+		url:'assetTypes',
+		dataType:'json',
+		success:function (data) {
+            zNodes = data;
+            t = $.fn.zTree.init(t, setting, zNodes);
+            demoIframe = $("#testIframe");
+            //demoIframe.on("load", loadReady);
+            var zTree = $.fn.zTree.getZTreeObj("tree");
+            //zTree.selectNode(zTree.getNodeByParam("id",'11'));
+        },
+		error:function () {
+			alert("分类树加载失败")
+        }
+	});
+
+});
+
+/*
+* 显示类型详情信息
+* */
+function showAssetTypeDetail(data) {
+    var str = "名称："+data.typeName+"    &nbsp;&nbsp;编码："+data.typeCode+"  来源："+data.comeFrom+"  显示顺序："+data.displayIdx+" \n" +
+        "最后修改人："+data.pkMender+"  最后修改时间："+datetimeFormat(data.mendTimeLast)+"  \n" +
+        "描述："+data.typeDesc+"";
+
+    $('#f').html(str);
+}
+
+/*类别信息绑定属性信息列表  data:json数组 */
+function showAssetTypePropList(data) {
+    var s = "";
+	for(var i = 0 ; i < data.length ; i++){
+	    s += "<tr class=\"text-c va-m\">" +
+			"<td>"+(i+1)+"</td>" +
+			"<td>"+data[i].propName+"</td>" +
+			"<td>"+data[i].propCode+"</td>" +
+			"<td>"+data[i].dataType+"</td>" +
+			"<td>"+data[i].bsType+"</td>" +
+			"<td>"+data[i].collectType+"</td>" +
+			"<td>"+data[i].comeFrom+"</td>" +
+			"<td class=\"td-manage\"><a style=\"text-decoration:none\" onClick=\"product_stop(this,'10001')\" href=\"javascript:;\" title=\"下架\"><i class=\"Hui-iconfont\">&#xe6de;</i></a> <a style=\"text-decoration:none\" class=\"ml-5\" onClick=\"product_edit('产品编辑','product-add.html','10001')\" href=\"javascript:;\" title=\"编辑\"><i class=\"Hui-iconfont\">&#xe6df;</i></a> <a style=\"text-decoration:none\" class=\"ml-5\" onClick=\"product_del(this,'10001')\" href=\"javascript:;\" title=\"删除\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a></td>" +
+			"</tr>";
+	}
+	$("#tb").html(s);
+}
+
+</script>
+
+<hr/>
+<hr>
+
+
+<div class="page-container">
+		<div class="text-c">
+	<!--<button name="" id="" class="btn btn-success"><i class="Hui-iconfont"></i> 关联属性信息</button>-->
+	<a href="javascript:;" onclick="bound_asset_type_prop('绑定属性','bound_asset_type_prop.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>绑定</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+			<input type="text" name="" id="" placeholder=" 产品名称" style="width:250px" class="input-text">
+			<button name="" id="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜产品</button>
+		</div>
+		
+		<div class="mt-20">
+			<table class="table table-border table-bordered table-bg table-hover table-sort">
+				<thead>
+					<tr class="text-c">
+						<th width="40">序号</th>
+						<th width="150">属性名称</th>
+						<th width="150">属性编码</th>
+						<th width="150">数据类型</th>
+						<th width="150">业务分类</th>
+						<th width="150">采集方式</th>
+						<th width="150">来源</th>
+						<th width="150">操作</th>
+					</tr>
+				</thead>
+				<tbody id="tb">
+
+				</tbody>
+			</table>
+		</div>
+		<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="r">共有数据：<strong>54</strong> 条</span> </div>
+	</div>
+
+
+<script>
+
+
+    function bound_asset_type_prop(title,url,w,h){
+        layer_show(title,url,w,h);
+    }
+
+    /* * 时间格式化工具
+    * 把Long类型的1527672756454日期还原yyyy-MM-dd 00:00:00格式日期
+    */
+    function datetimeFormat(longTypeDate){
+        var dateTypeDate = "";
+        var date = new Date();
+        date.setTime(longTypeDate);
+        dateTypeDate += date.getFullYear(); //年
+        dateTypeDate += "-" + getMonth(date); //月
+        dateTypeDate += "-" + getDay(date); //日
+        dateTypeDate += " " + getHours(date); //时
+        dateTypeDate += ":" + getMinutes(date);  //分
+        dateTypeDate += ":" + getSeconds(date);  //分
+        return dateTypeDate;
+    }
+    /*
+     * 时间格式化工具
+     * 把Long类型的1527672756454日期还原yyyy-MM-dd格式日期
+     */
+    function dateFormat(longTypeDate){
+        var dateTypeDate = "";
+        var date = new Date();
+        date.setTime(longTypeDate);
+        dateTypeDate += date.getFullYear(); //年
+        dateTypeDate += "-" + getMonth(date); //月
+        dateTypeDate += "-" + getDay(date); //日
+        return dateTypeDate;
+    }
+    //返回 01-12 的月份值
+    function getMonth(date){
+        var month = "";
+        month = date.getMonth() + 1; //getMonth()得到的月份是0-11
+        if(month<10){
+            month = "0" + month;
+        }
+        return month;
+    }
+    //返回01-30的日期
+    function getDay(date){
+        var day = "";
+        day = date.getDate();
+        if(day<10){
+            day = "0" + day;
+        }
+        return day;
+    }
+    //小时
+    function getHours(date){
+        var hours = "";
+        hours = date.getHours();
+        if(hours<10){
+            hours = "0" + hours;
+        }
+        return hours;
+    }
+    //分
+    function getMinutes(date){
+        var minute = "";
+        minute = date.getMinutes();
+        if(minute<10){
+            minute = "0" + minute;
+        }
+        return minute;
+    }
+    //秒
+    function getSeconds(date){
+        var second = "";
+        second = date.getSeconds();
+        if(second<10){
+            second = "0" + second;
+        }
+        return second;
+    }
+</script>
+
+</body>
+</html>

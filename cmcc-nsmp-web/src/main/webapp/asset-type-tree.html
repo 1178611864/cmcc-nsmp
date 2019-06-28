@@ -1,0 +1,430 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<script type="text/javascript" src="common.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" href="lib/zTree/v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>产品分类</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 资产类型管理 <span class="c-gray en">&gt;</span> 资产类型树 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<table class="table">
+	<tr>
+		<td width="200" class="va-t"><ul id="treeDemo" class="ztree"></ul></td>
+		<td>
+			<div id="assetTypeDetail">
+                <!--资产类别详情-->
+            </div>
+		</td>
+	</tr>
+</table>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/zTree/v3/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript">
+var setting = {
+	view: {
+		dblClickExpand: false,
+		showLine: false,
+		selectedMulti: false
+	},
+	data: {
+		simpleData: {
+			enable:true,
+			idKey: "id",
+			pIdKey: "pId",
+			rootPId: ""
+		}
+	},
+	callback: {
+		beforeClick: function(treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("tree");
+			//根据分类名称查询对应的详细信息(分类名称不能重复)
+			var name = treeNode.name;
+
+			//点击某个结点，将当前结点name名称（类型名称）存一个cookie
+			$.cookie("current_node_click",name);
+
+			$.ajax({
+				//AmAssetTypeController
+				//url:'findAmAssetTypeByName?name='+name,
+				url:'findAmAssetTypeAndPropListByName?name='+name,
+				dataType:'json',
+				success:function (data) {
+                    showAssetTypeDetail(data.amAssetType);
+                    showAssetTypePropList(data.propList);
+                },
+				error:function () {
+					alert('加载分类详情失败')
+                }
+
+			});
+
+		}
+	}
+};
+
+var zNodes =[];
+
+var code;
+
+function showCode(str) {
+	if (!code) code = $("#code");
+	code.empty();
+	code.append("<li>"+str+"</li>");
+}
+
+$(document).ready(function(){
+	var t = $("#treeDemo");
+
+	$.ajax({
+		url:'assetTypes',
+		dataType:'json',
+		success:function (data) {
+            zNodes = data;
+            t = $.fn.zTree.init(t, setting, zNodes);
+            demoIframe = $("#testIframe");
+            //demoIframe.on("load", loadReady);
+            var zTree = $.fn.zTree.getZTreeObj("tree");
+            //zTree.selectNode(zTree.getNodeByParam("id",'11'));
+        },
+		error:function () {
+			alert("分类树加载失败")
+        }
+	});
+
+});
+
+/*
+* 显示类型详情信息
+* */
+function showAssetTypeDetail(data) {
+    var str = "<font color=\"blue\" size=\"2px\" style=\"font-weight: bold\">名称：</font><font size=\"2px\">"+data.typeName+"</font>&emsp;&emsp;" +
+        "<font color=\"blue\" size=\"2px\" style=\"font-weight: bold\">编码：</font><font size=\"2px\">"+data.typeCode+"</font>&emsp;&emsp;" +
+        "<font color=\"blue\" size=\"2px\" style=\"font-weight: bold\">来源：</font><font size=\"2px\">"+data.comeFrom+"</font>&emsp;&emsp;" +
+        "<font color=\"blue\" size=\"2px\" style=\"font-weight: bold\">显示顺序：</font><font size=\"2px\">"+data.displayIdx+"</font>&emsp;&emsp;" +
+        "<font color=\"blue\" size=\"2px\" style=\"font-weight: bold\">描述：</font><font size=\"2px\">"+data.typeDesc+"</font>&emsp;&emsp;<br><br>" +
+        "<font color=\"blue\" size=\"2px\" style=\"font-weight: bold\">最后修改人：</font><font size=\"2px\">"+data.pkMender+"</font>&emsp;&emsp;<br><br>" +
+        "<font color=\"blue\" size=\"2px\" style=\"font-weight: bold\">最后修改时间：</font><font size=\"2px\">"+datetimeFormat(data.mendTimeLast)+"</font>&emsp;&emsp;<br>";
+
+    $('#assetTypeDetail').html(str);
+}
+
+function configure_prop(title,url,id,w,h){
+    layer_show(title,url,w,h);
+}
+
+/*类别信息绑定属性信息列表  data:json数组 */
+function showAssetTypePropList(data) {
+    var s = "";
+	for(var i = 0 ; i < data.length ; i++){
+	    s += "<tr class=\"text-c va-m\">" +
+			"<td>"+(i+1)+"</td>" +
+			"<td>"+data[i].propName+"</td>" +
+			"<td>"+data[i].propCode+"</td>" +
+			"<td>"+datatype(data[i].dataType)+"</td>" +
+			"<td>"+bstype(data[i].bsType)+"</td>" +
+            "<td>"+needValue(data[i].needValue)+"</td>" +
+            "<td>"+isView(data[i].isView)+"</td>" +
+			"<td>"+collectType(data[i].collectType)+"</td>" +
+			"<td>"+comefrom(data[i].comeFrom)+"</td>" +
+			"<td><a class='c-red' onclick=\"unbundle(this,'"+data[i].pkAssetProp+"')\">解绑</a>&emsp;" +
+            "<a class='c-blue' onclick=\"configure_prop('配置资产属性','configure_prop.html','"+data[i].pkAssetProp+"','800','400')\">配置</a>" +
+			"</td>" +
+			"</tr>";
+	}
+	$("#propcount").text(data.length);
+	$("#tb").html(s);
+}
+
+/*配置资产属性*/
+function configure_prop(title,url,id,w,h){
+    //id 当前行 属性 的id
+	//该属性对应的类型的id
+    //$.cookie("current_node_click");
+	$.cookie("current_prop_config",id);
+    layer_show(title,url,w,h);
+}
+
+/*用户-删除*/
+function unbundle(obj,pkAssetProp){
+    layer.confirm('确认要解绑该属性吗？',function(index){
+        /*
+        * 1、当前行属性的id   2、节点类型的id（只能够获取节点名称）
+        * */
+        var typeName = $.cookie("current_node_click");
+        $.ajax({
+            type: 'get',
+            url: 'AssetPropController_unbundle?pkAssetProp='+pkAssetProp+'&typeName='+typeName,
+            dataType: 'json',
+            success: function(data){
+                if(data.code == 1){
+                    /*$(obj).parents("tr").remove();*/
+                    showAssetTypePropList(data.propList);
+                    layer.msg('已解绑!',{icon:1,time:1200});
+				}
+            },
+            error:function(data) {
+                console.log(data.msg);
+            }
+        });
+    });
+}
+
+</script>
+
+<hr>
+&emsp;&emsp;
+<strong>关联属性信息↓</strong>
+<hr>
+<div class="page-container">
+        <div class="text-c l">
+            <a href="javascript:;" onclick="bound_asset_type_prop('绑定属性','bound_asset_type_prop.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>绑定</a>
+        </div>
+		<div class="text-c r">
+			<input type="text" name="" id="propName" placeholder=" 属性名称" style="width:250px" class="input-text">
+			<button name="" id="searchPropByName" class="btn btn-primary radius" onclick="searchPropByName()" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜属性</button>
+		</div>
+		<br>
+		<div class="mt-20">
+			<table class="table table-border table-bordered table-bg table-hover table-sort">
+				<thead>
+					<tr class="text-c">
+						<th width="40">序号</th>
+						<th width="150">属性名称</th>
+						<th width="150">属性编码</th>
+						<th width="150">数据类型</th>
+						<th width="150">业务分类</th>
+						<th width="150">是否必填</th>
+						<th width="150">是否显示</th>
+						<th width="150">采集方式</th>
+						<th width="150">来源</th>
+						<th width="150">操作</th>
+					</tr>
+				</thead>
+				<tbody id="tb">
+
+				</tbody>
+			</table>
+		</div>
+		<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="r">共有数据：<strong id="propcount"></strong> 条</span> </div>
+	</div>
+
+
+<script>
+
+    function searchPropByName(){
+        var propName = $("#propName").val();
+        var typeName = $.cookie("current_node_click");
+        $.ajax({
+			url:'AssetPropController_searchPropByName?propName='+propName+'&typeName='+typeName+'',
+			dataType:'json',
+			success:function (data) {
+                showAssetTypePropList(data);
+            }
+		});
+	}
+
+    function bound_asset_type_prop(title,url,w,h){
+        layer_show(title,url,w,h);
+    }
+
+    /* * 时间格式化工具
+    * 把Long类型的1527672756454日期还原yyyy-MM-dd 00:00:00格式日期
+    */
+    function datetimeFormat(longTypeDate){
+        var dateTypeDate = "";
+        var date = new Date();
+        date.setTime(longTypeDate);
+        dateTypeDate += date.getFullYear(); //年
+        dateTypeDate += "-" + getMonth(date); //月
+        dateTypeDate += "-" + getDay(date); //日
+        dateTypeDate += " " + getHours(date); //时
+        dateTypeDate += ":" + getMinutes(date);  //分
+        dateTypeDate += ":" + getSeconds(date);  //分
+        return dateTypeDate;
+    }
+    /*
+     * 时间格式化工具
+     * 把Long类型的1527672756454日期还原yyyy-MM-dd格式日期
+     */
+    function dateFormat(longTypeDate){
+        var dateTypeDate = "";
+        var date = new Date();
+        date.setTime(longTypeDate);
+        dateTypeDate += date.getFullYear(); //年
+        dateTypeDate += "-" + getMonth(date); //月
+        dateTypeDate += "-" + getDay(date); //日
+        return dateTypeDate;
+    }
+    //返回 01-12 的月份值
+    function getMonth(date){
+        var month = "";
+        month = date.getMonth() + 1; //getMonth()得到的月份是0-11
+        if(month<10){
+            month = "0" + month;
+        }
+        return month;
+    }
+    //返回01-30的日期
+    function getDay(date){
+        var day = "";
+        day = date.getDate();
+        if(day<10){
+            day = "0" + day;
+        }
+        return day;
+    }
+    //小时
+    function getHours(date){
+        var hours = "";
+        hours = date.getHours();
+        if(hours<10){
+            hours = "0" + hours;
+        }
+        return hours;
+    }
+    //分
+    function getMinutes(date){
+        var minute = "";
+        minute = date.getMinutes();
+        if(minute<10){
+            minute = "0" + minute;
+        }
+        return minute;
+    }
+    //秒
+    function getSeconds(date){
+        var second = "";
+        second = date.getSeconds();
+        if(second<10){
+            second = "0" + second;
+        }
+        return second;
+    }
+
+    /*
+    * N（umber）为数字类型，D（ate）为日期，S（tring）为字符，E（num）为枚举，L（ist）为列表类型，P（assword）为密码
+    * */
+
+    function datatype(data) {
+        if (data == "N") {
+            return "数字";
+        }
+		if (data == "D") {
+		    return "日期";
+		}
+        if (data == "S") {
+            return "字符";
+        }
+        if (data == "E") {
+            return "枚举";
+        }
+        if (data == "L") {
+            return "列表";
+        }
+        if (data == "P") {
+            return "密码";
+        }
+    }
+
+
+    /*
+    *
+    * 业务分类;1=通用属性、2=硬件属性、3=软件属性、4=登录属性、5=自定义属性
+    * */
+
+    function bstype(data){
+        if(data == "1"){
+            return "通用属性";
+		}
+        if(data == "2"){
+            return "硬件属性";
+        }
+        if(data == "3"){
+            return "软件属性";
+        }
+        if(data == "4"){
+            return "登录属性";
+        }
+        if(data == "5"){
+            return "自定义属性";
+        }
+	}
+
+	/*
+	*
+	* 3位二进制位，分别代表：人工录入、登录采集、远程扫描。0为不支持、1-支持*/
+	function collectType(data) {
+		//110
+		if(data==null){
+		    return "暂无采集方式";
+		}
+		var arr = data.split("");
+
+		var s1 = arr[0];
+		var s2 = arr[1];
+		var s3 = arr[2];
+
+		var  t1 = s1==0?"":"人工录入 ";
+		var  t2 = s2==0?"":"登录采集 ";
+		var  t3 = s3==0?"":"远程扫描 ";
+		return t1+t2+t3;
+
+    }
+
+    /*属性来源;0-系统内置、1-自定义*/
+    function comefrom(data) {
+        if(data == null){
+            return "暂无来源";
+        }
+		return data==0?"系统内置":"自定义";
+    }
+
+
+
+   /* 是否必填;0-非必填、1-必填*/
+    function needValue(data) {
+        if(data==0){
+            return "非必填";
+        }else{
+            return "必填";
+        }
+    }
+
+    /* 是否显示;0-不显示、1-显示 */
+    function isView(data) {
+        if(data==0){
+            return "不显示";
+        }else{
+            return "显示";
+        }
+    }
+
+
+</script>
+
+</body>
+</html>

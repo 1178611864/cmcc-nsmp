@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ultrapower.dao.BdmVendorMapper" >
+  <resultMap id="BaseResultMap" type="com.ultrapower.pojo.BdmVendor" >
+    <id column="PK_VENDOR" property="pkVendor" jdbcType="CHAR" />
+    <result column="VENDOR_NAME" property="vendorName" jdbcType="VARCHAR" />
+    <result column="VENDOR_CODE" property="vendorCode" jdbcType="VARCHAR" />
+    <result column="VENDOR_DESC" property="vendorDesc" jdbcType="VARCHAR" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="SMALLINT" />
+    <result column="PK_CREATOR" property="pkCreator" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="PK_MENDER" property="pkMender" jdbcType="CHAR" />
+    <result column="MEND_TIME_LAST" property="mendTimeLast" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    PK_VENDOR, VENDOR_NAME, VENDOR_CODE, VENDOR_DESC, IS_DELETED, PK_CREATOR, CREATE_TIME, 
+    PK_MENDER, MEND_TIME_LAST
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ultrapower.pojo.BdmVendorExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from bdm_vendor
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bdm_vendor
+    where PK_VENDOR = #{pkVendor,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bdm_vendor
+    where PK_VENDOR = #{pkVendor,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ultrapower.pojo.BdmVendorExample" >
+    delete from bdm_vendor
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ultrapower.pojo.BdmVendor" >
+    insert into bdm_vendor (PK_VENDOR, VENDOR_NAME, VENDOR_CODE, 
+      VENDOR_DESC, IS_DELETED, PK_CREATOR, 
+      CREATE_TIME, PK_MENDER, MEND_TIME_LAST
+      )
+    values (#{pkVendor,jdbcType=CHAR}, #{vendorName,jdbcType=VARCHAR}, #{vendorCode,jdbcType=VARCHAR}, 
+      #{vendorDesc,jdbcType=VARCHAR}, #{isDeleted,jdbcType=SMALLINT}, #{pkCreator,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{pkMender,jdbcType=CHAR}, #{mendTimeLast,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ultrapower.pojo.BdmVendor" >
+    insert into bdm_vendor
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkVendor != null" >
+        PK_VENDOR,
+      </if>
+      <if test="vendorName != null" >
+        VENDOR_NAME,
+      </if>
+      <if test="vendorCode != null" >
+        VENDOR_CODE,
+      </if>
+      <if test="vendorDesc != null" >
+        VENDOR_DESC,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+      <if test="pkCreator != null" >
+        PK_CREATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="pkMender != null" >
+        PK_MENDER,
+      </if>
+      <if test="mendTimeLast != null" >
+        MEND_TIME_LAST,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkVendor != null" >
+        #{pkVendor,jdbcType=CHAR},
+      </if>
+      <if test="vendorName != null" >
+        #{vendorName,jdbcType=VARCHAR},
+      </if>
+      <if test="vendorCode != null" >
+        #{vendorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="vendorDesc != null" >
+        #{vendorDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=SMALLINT},
+      </if>
+      <if test="pkCreator != null" >
+        #{pkCreator,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pkMender != null" >
+        #{pkMender,jdbcType=CHAR},
+      </if>
+      <if test="mendTimeLast != null" >
+        #{mendTimeLast,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ultrapower.pojo.BdmVendorExample" resultType="java.lang.Integer" >
+    select count(*) from bdm_vendor
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update bdm_vendor
+    <set >
+      <if test="record.pkVendor != null" >
+        PK_VENDOR = #{record.pkVendor,jdbcType=CHAR},
+      </if>
+      <if test="record.vendorName != null" >
+        VENDOR_NAME = #{record.vendorName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vendorCode != null" >
+        VENDOR_CODE = #{record.vendorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vendorDesc != null" >
+        VENDOR_DESC = #{record.vendorDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDeleted != null" >
+        IS_DELETED = #{record.isDeleted,jdbcType=SMALLINT},
+      </if>
+      <if test="record.pkCreator != null" >
+        PK_CREATOR = #{record.pkCreator,jdbcType=CHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pkMender != null" >
+        PK_MENDER = #{record.pkMender,jdbcType=CHAR},
+      </if>
+      <if test="record.mendTimeLast != null" >
+        MEND_TIME_LAST = #{record.mendTimeLast,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update bdm_vendor
+    set PK_VENDOR = #{record.pkVendor,jdbcType=CHAR},
+      VENDOR_NAME = #{record.vendorName,jdbcType=VARCHAR},
+      VENDOR_CODE = #{record.vendorCode,jdbcType=VARCHAR},
+      VENDOR_DESC = #{record.vendorDesc,jdbcType=VARCHAR},
+      IS_DELETED = #{record.isDeleted,jdbcType=SMALLINT},
+      PK_CREATOR = #{record.pkCreator,jdbcType=CHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      PK_MENDER = #{record.pkMender,jdbcType=CHAR},
+      MEND_TIME_LAST = #{record.mendTimeLast,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ultrapower.pojo.BdmVendor" >
+    update bdm_vendor
+    <set >
+      <if test="vendorName != null" >
+        VENDOR_NAME = #{vendorName,jdbcType=VARCHAR},
+      </if>
+      <if test="vendorCode != null" >
+        VENDOR_CODE = #{vendorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="vendorDesc != null" >
+        VENDOR_DESC = #{vendorDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=SMALLINT},
+      </if>
+      <if test="pkCreator != null" >
+        PK_CREATOR = #{pkCreator,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pkMender != null" >
+        PK_MENDER = #{pkMender,jdbcType=CHAR},
+      </if>
+      <if test="mendTimeLast != null" >
+        MEND_TIME_LAST = #{mendTimeLast,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_VENDOR = #{pkVendor,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ultrapower.pojo.BdmVendor" >
+    update bdm_vendor
+    set VENDOR_NAME = #{vendorName,jdbcType=VARCHAR},
+      VENDOR_CODE = #{vendorCode,jdbcType=VARCHAR},
+      VENDOR_DESC = #{vendorDesc,jdbcType=VARCHAR},
+      IS_DELETED = #{isDeleted,jdbcType=SMALLINT},
+      PK_CREATOR = #{pkCreator,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      PK_MENDER = #{pkMender,jdbcType=CHAR},
+      MEND_TIME_LAST = #{mendTimeLast,jdbcType=TIMESTAMP}
+    where PK_VENDOR = #{pkVendor,jdbcType=CHAR}
+  </update>
+</mapper>

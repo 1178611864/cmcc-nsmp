@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ultrapower.dao.AmAssetPropMapper" >
+  <resultMap id="BaseResultMap" type="com.ultrapower.pojo.AmAssetProp" >
+    <id column="PK_ASSET_PROP" property="pkAssetProp" jdbcType="CHAR" />
+    <result column="PROP_NAME" property="propName" jdbcType="VARCHAR" />
+    <result column="PROP_CODE" property="propCode" jdbcType="VARCHAR" />
+    <result column="PROP_DESC" property="propDesc" jdbcType="VARCHAR" />
+    <result column="PK_PROP_CLASS" property="pkPropClass" jdbcType="CHAR" />
+    <result column="BS_TYPE" property="bsType" jdbcType="SMALLINT" />
+    <result column="DATA_TYPE" property="dataType" jdbcType="CHAR" />
+    <result column="IS_VIEW" property="isView" jdbcType="SMALLINT" />
+    <result column="NEED_VALUE" property="needValue" jdbcType="SMALLINT" />
+    <result column="COLLECT_TYPE" property="collectType" jdbcType="CHAR" />
+    <result column="COME_FROM" property="comeFrom" jdbcType="SMALLINT" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="SMALLINT" />
+    <result column="PK_CREATOR" property="pkCreator" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="PK_MENDER" property="pkMender" jdbcType="CHAR" />
+    <result column="MEND_TIME_LAST" property="mendTimeLast" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    PK_ASSET_PROP, PROP_NAME, PROP_CODE, PROP_DESC, PK_PROP_CLASS, BS_TYPE, DATA_TYPE, 
+    IS_VIEW, NEED_VALUE, COLLECT_TYPE, COME_FROM, IS_DELETED, PK_CREATOR, CREATE_TIME, 
+    PK_MENDER, MEND_TIME_LAST
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ultrapower.pojo.AmAssetPropExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from am_asset_prop
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from am_asset_prop
+    where PK_ASSET_PROP = #{pkAssetProp,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from am_asset_prop
+    where PK_ASSET_PROP = #{pkAssetProp,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ultrapower.pojo.AmAssetPropExample" >
+    delete from am_asset_prop
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ultrapower.pojo.AmAssetProp" >
+    insert into am_asset_prop (PK_ASSET_PROP, PROP_NAME, PROP_CODE, 
+      PROP_DESC, PK_PROP_CLASS, BS_TYPE, 
+      DATA_TYPE, IS_VIEW, NEED_VALUE, 
+      COLLECT_TYPE, COME_FROM, IS_DELETED, 
+      PK_CREATOR, CREATE_TIME, PK_MENDER, 
+      MEND_TIME_LAST)
+    values (#{pkAssetProp,jdbcType=CHAR}, #{propName,jdbcType=VARCHAR}, #{propCode,jdbcType=VARCHAR}, 
+      #{propDesc,jdbcType=VARCHAR}, #{pkPropClass,jdbcType=CHAR}, #{bsType,jdbcType=SMALLINT}, 
+      #{dataType,jdbcType=CHAR}, #{isView,jdbcType=SMALLINT}, #{needValue,jdbcType=SMALLINT}, 
+      #{collectType,jdbcType=CHAR}, #{comeFrom,jdbcType=SMALLINT}, #{isDeleted,jdbcType=SMALLINT}, 
+      #{pkCreator,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{pkMender,jdbcType=CHAR}, 
+      #{mendTimeLast,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ultrapower.pojo.AmAssetProp" >
+    insert into am_asset_prop
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkAssetProp != null" >
+        PK_ASSET_PROP,
+      </if>
+      <if test="propName != null" >
+        PROP_NAME,
+      </if>
+      <if test="propCode != null" >
+        PROP_CODE,
+      </if>
+      <if test="propDesc != null" >
+        PROP_DESC,
+      </if>
+      <if test="pkPropClass != null" >
+        PK_PROP_CLASS,
+      </if>
+      <if test="bsType != null" >
+        BS_TYPE,
+      </if>
+      <if test="dataType != null" >
+        DATA_TYPE,
+      </if>
+      <if test="isView != null" >
+        IS_VIEW,
+      </if>
+      <if test="needValue != null" >
+        NEED_VALUE,
+      </if>
+      <if test="collectType != null" >
+        COLLECT_TYPE,
+      </if>
+      <if test="comeFrom != null" >
+        COME_FROM,
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED,
+      </if>
+      <if test="pkCreator != null" >
+        PK_CREATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="pkMender != null" >
+        PK_MENDER,
+      </if>
+      <if test="mendTimeLast != null" >
+        MEND_TIME_LAST,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkAssetProp != null" >
+        #{pkAssetProp,jdbcType=CHAR},
+      </if>
+      <if test="propName != null" >
+        #{propName,jdbcType=VARCHAR},
+      </if>
+      <if test="propCode != null" >
+        #{propCode,jdbcType=VARCHAR},
+      </if>
+      <if test="propDesc != null" >
+        #{propDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="pkPropClass != null" >
+        #{pkPropClass,jdbcType=CHAR},
+      </if>
+      <if test="bsType != null" >
+        #{bsType,jdbcType=SMALLINT},
+      </if>
+      <if test="dataType != null" >
+        #{dataType,jdbcType=CHAR},
+      </if>
+      <if test="isView != null" >
+        #{isView,jdbcType=SMALLINT},
+      </if>
+      <if test="needValue != null" >
+        #{needValue,jdbcType=SMALLINT},
+      </if>
+      <if test="collectType != null" >
+        #{collectType,jdbcType=CHAR},
+      </if>
+      <if test="comeFrom != null" >
+        #{comeFrom,jdbcType=SMALLINT},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=SMALLINT},
+      </if>
+      <if test="pkCreator != null" >
+        #{pkCreator,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pkMender != null" >
+        #{pkMender,jdbcType=CHAR},
+      </if>
+      <if test="mendTimeLast != null" >
+        #{mendTimeLast,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ultrapower.pojo.AmAssetPropExample" resultType="java.lang.Integer" >
+    select count(*) from am_asset_prop
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update am_asset_prop
+    <set >
+      <if test="record.pkAssetProp != null" >
+        PK_ASSET_PROP = #{record.pkAssetProp,jdbcType=CHAR},
+      </if>
+      <if test="record.propName != null" >
+        PROP_NAME = #{record.propName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.propCode != null" >
+        PROP_CODE = #{record.propCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.propDesc != null" >
+        PROP_DESC = #{record.propDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pkPropClass != null" >
+        PK_PROP_CLASS = #{record.pkPropClass,jdbcType=CHAR},
+      </if>
+      <if test="record.bsType != null" >
+        BS_TYPE = #{record.bsType,jdbcType=SMALLINT},
+      </if>
+      <if test="record.dataType != null" >
+        DATA_TYPE = #{record.dataType,jdbcType=CHAR},
+      </if>
+      <if test="record.isView != null" >
+        IS_VIEW = #{record.isView,jdbcType=SMALLINT},
+      </if>
+      <if test="record.needValue != null" >
+        NEED_VALUE = #{record.needValue,jdbcType=SMALLINT},
+      </if>
+      <if test="record.collectType != null" >
+        COLLECT_TYPE = #{record.collectType,jdbcType=CHAR},
+      </if>
+      <if test="record.comeFrom != null" >
+        COME_FROM = #{record.comeFrom,jdbcType=SMALLINT},
+      </if>
+      <if test="record.isDeleted != null" >
+        IS_DELETED = #{record.isDeleted,jdbcType=SMALLINT},
+      </if>
+      <if test="record.pkCreator != null" >
+        PK_CREATOR = #{record.pkCreator,jdbcType=CHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pkMender != null" >
+        PK_MENDER = #{record.pkMender,jdbcType=CHAR},
+      </if>
+      <if test="record.mendTimeLast != null" >
+        MEND_TIME_LAST = #{record.mendTimeLast,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update am_asset_prop
+    set PK_ASSET_PROP = #{record.pkAssetProp,jdbcType=CHAR},
+      PROP_NAME = #{record.propName,jdbcType=VARCHAR},
+      PROP_CODE = #{record.propCode,jdbcType=VARCHAR},
+      PROP_DESC = #{record.propDesc,jdbcType=VARCHAR},
+      PK_PROP_CLASS = #{record.pkPropClass,jdbcType=CHAR},
+      BS_TYPE = #{record.bsType,jdbcType=SMALLINT},
+      DATA_TYPE = #{record.dataType,jdbcType=CHAR},
+      IS_VIEW = #{record.isView,jdbcType=SMALLINT},
+      NEED_VALUE = #{record.needValue,jdbcType=SMALLINT},
+      COLLECT_TYPE = #{record.collectType,jdbcType=CHAR},
+      COME_FROM = #{record.comeFrom,jdbcType=SMALLINT},
+      IS_DELETED = #{record.isDeleted,jdbcType=SMALLINT},
+      PK_CREATOR = #{record.pkCreator,jdbcType=CHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      PK_MENDER = #{record.pkMender,jdbcType=CHAR},
+      MEND_TIME_LAST = #{record.mendTimeLast,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ultrapower.pojo.AmAssetProp" >
+    update am_asset_prop
+    <set >
+      <if test="propName != null" >
+        PROP_NAME = #{propName,jdbcType=VARCHAR},
+      </if>
+      <if test="propCode != null" >
+        PROP_CODE = #{propCode,jdbcType=VARCHAR},
+      </if>
+      <if test="propDesc != null" >
+        PROP_DESC = #{propDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="pkPropClass != null" >
+        PK_PROP_CLASS = #{pkPropClass,jdbcType=CHAR},
+      </if>
+      <if test="bsType != null" >
+        BS_TYPE = #{bsType,jdbcType=SMALLINT},
+      </if>
+      <if test="dataType != null" >
+        DATA_TYPE = #{dataType,jdbcType=CHAR},
+      </if>
+      <if test="isView != null" >
+        IS_VIEW = #{isView,jdbcType=SMALLINT},
+      </if>
+      <if test="needValue != null" >
+        NEED_VALUE = #{needValue,jdbcType=SMALLINT},
+      </if>
+      <if test="collectType != null" >
+        COLLECT_TYPE = #{collectType,jdbcType=CHAR},
+      </if>
+      <if test="comeFrom != null" >
+        COME_FROM = #{comeFrom,jdbcType=SMALLINT},
+      </if>
+      <if test="isDeleted != null" >
+        IS_DELETED = #{isDeleted,jdbcType=SMALLINT},
+      </if>
+      <if test="pkCreator != null" >
+        PK_CREATOR = #{pkCreator,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pkMender != null" >
+        PK_MENDER = #{pkMender,jdbcType=CHAR},
+      </if>
+      <if test="mendTimeLast != null" >
+        MEND_TIME_LAST = #{mendTimeLast,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ASSET_PROP = #{pkAssetProp,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ultrapower.pojo.AmAssetProp" >
+    update am_asset_prop
+    set PROP_NAME = #{propName,jdbcType=VARCHAR},
+      PROP_CODE = #{propCode,jdbcType=VARCHAR},
+      PROP_DESC = #{propDesc,jdbcType=VARCHAR},
+      PK_PROP_CLASS = #{pkPropClass,jdbcType=CHAR},
+      BS_TYPE = #{bsType,jdbcType=SMALLINT},
+      DATA_TYPE = #{dataType,jdbcType=CHAR},
+      IS_VIEW = #{isView,jdbcType=SMALLINT},
+      NEED_VALUE = #{needValue,jdbcType=SMALLINT},
+      COLLECT_TYPE = #{collectType,jdbcType=CHAR},
+      COME_FROM = #{comeFrom,jdbcType=SMALLINT},
+      IS_DELETED = #{isDeleted,jdbcType=SMALLINT},
+      PK_CREATOR = #{pkCreator,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      PK_MENDER = #{pkMender,jdbcType=CHAR},
+      MEND_TIME_LAST = #{mendTimeLast,jdbcType=TIMESTAMP}
+    where PK_ASSET_PROP = #{pkAssetProp,jdbcType=CHAR}
+  </update>
+
+
+  <resultMap id="BaseResultMap2" type="com.ultrapower.pojo.AmAssetProp" >
+    <id column="PK_ASSET_PROP" property="pkAssetProp" jdbcType="CHAR" />
+    <result column="PROP_NAME" property="propName" jdbcType="VARCHAR" />
+    <result column="PROP_CODE" property="propCode" jdbcType="VARCHAR" />
+    <result column="PROP_DESC" property="propDesc" jdbcType="VARCHAR" />
+    <result column="PK_PROP_CLASS" property="pkPropClass" jdbcType="CHAR" />
+    <result column="BS_TYPE" property="bsType" jdbcType="SMALLINT" />
+    <result column="DATA_TYPE" property="dataType" jdbcType="CHAR" />
+    <result column="is_view2" property="isView" jdbcType="SMALLINT" />
+    <result column="need_value2" property="needValue" jdbcType="SMALLINT" />
+    <result column="collect_type2" property="collectType" jdbcType="CHAR" />
+    <result column="come_from2" property="comeFrom" jdbcType="SMALLINT" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="SMALLINT" />
+    <result column="PK_CREATOR" property="pkCreator" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="PK_MENDER" property="pkMender" jdbcType="CHAR" />
+    <result column="MEND_TIME_LAST" property="mendTimeLast" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <select id="findPropListByAssetTypeId" parameterType="string" resultMap="BaseResultMap2">
+    SELECT a.*,b.COLLECT_TYPE as 'collect_type2',b.COME_FROM
+    as 'come_from2' ,b.IS_VIEW as is_view2 ,b.NEED_VALUE as need_value2
+
+    FROM `am_asset_prop` a ,`am_asset_type_prop` b
+WHERE a.`PK_ASSET_PROP` = b.`PK_ASSET_PROP`
+AND b.`PK_ASSET_TYPE` = #{id};
+  </select>
+
+  <select id="findPropListByAssetTypeIdAndLikePropName" parameterType="hashmap" resultMap="BaseResultMap2">
+    SELECT a.*,b.COLLECT_TYPE as 'collect_type2',b.COME_FROM
+    as 'come_from2' ,b.IS_VIEW as is_view2 ,b.NEED_VALUE as need_value2
+
+    FROM `am_asset_prop` a ,`am_asset_type_prop` b
+WHERE a.`PK_ASSET_PROP` = b.`PK_ASSET_PROP`
+AND b.`PK_ASSET_TYPE` = #{PK_ASSET_TYPE}
+AND  a.`PROP_NAME` LIKE #{PROP_NAME}
+  </select>
+
+</mapper>

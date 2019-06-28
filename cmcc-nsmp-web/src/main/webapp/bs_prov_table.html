@@ -1,0 +1,279 @@
+﻿<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="Bookmark" href="/favicon.ico">
+    <link rel="Shortcut Icon" href="/favicon.ico"/>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="lib/html5shiv.js"></script>
+    <script type="text/javascript" src="lib/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css"/>
+    <link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin"/>
+    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css"/>
+    <!--[if IE 6]>
+    <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js"></script>
+    <script>DD_belatedPNG.fix('*');</script>
+    <![endif]-->
+    <!--/meta 作为公共模版分离出去-->
+</head>
+<body>
+
+    <div id="tab-system" class="HuiTab">
+        <!--Tab页签-->
+        <div class="tabBar cl">
+            <span>基本信息</span>
+            <span>管辖资产</span>
+        </div>
+
+        <!--基本信息tb页签-->
+        <div class="tabCon"><br>
+            <!--省份业务系统详情-->
+            <span style="font-weight: bold;font-size: 15px">基本信息</span>
+            <div class="text-c" style="background-color: #c8ffad  ;line-height: 32px">
+                <table style="text-align: left">
+                    <tr>
+                        <td>
+                            <span style="font-weight: bold;color: #0000cc">业务系统名称：</span>
+                            <span id="bs_name"></span>
+                        </td>
+                        <td>
+                            <span style="font-weight: bold;color: #0000cc">管辖资产数量：</span>
+                            <span id="asset_count"></span>
+                        </td>
+                        <td><span style="font-weight: bold;color: #0000cc">上级业务系统：</span>
+                            <span id="bs_parent"></span>
+                        </td>
+                        <td><span style="font-weight: bold;color: #0000cc">业务系统编码：</span>
+                            <span id="bs_code"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><span style="font-weight: bold;color: #0000cc">业务系统来源：</span>
+                            <span id="bs_src"></span>
+                        </td>
+                        <td colspan="2"><span style="font-weight: bold;color: #0000cc">显示顺序：</span>
+                            <span id="bs_seq"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"><span style="font-weight: bold;color: #0000cc">业务系统描述：</span>
+                            <span id="bs_desc"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br>
+            <span style="font-weight: bold;font-size: 15px">扩展信息</span>
+            <div class="text-c" style="background-color: #c8ffad;line-height: 32px">
+                <table style="text-align: left">
+                    <tr>
+                        <td>
+                            <span style="font-weight: bold;color: #0000cc">所属省份：</span>
+                            <span id="prov_code"></span>
+                        </td>
+                        <td>
+                            <span style="font-weight: bold;color: #0000cc">部署地理位置：</span>
+                            <span id="locatton"></span>
+                        </td>
+                        <td><span style="font-weight: bold;color: #0000cc">业务系统类型：</span>
+                            <span id="bs_type"></span>
+                        </td>
+                        <td><span style="font-weight: bold;color: #0000cc">业务系统版本：</span>
+                            <span>v1.1</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span style="font-weight: bold;color: #0000cc">安全等级：</span>
+                            <span>A</span>
+                        </td>
+                        <td><span style="font-weight: bold;color: #0000cc">社会影响力赋值：</span>
+                            <span>影响力相当大了</span>
+                        </td>
+                        <td><span style="font-weight: bold;color: #0000cc">备份系统：</span>
+                            <span>暂无备份</span>
+                        </td>
+                        <td><span style="font-weight: bold;color: #0000cc">规模和服务范围赋值：</span>
+                            <span>xxx</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span style="font-weight: bold;color: #0000cc">服务重要性赋值：</span>
+                            <span>x</span>
+                        </td>
+                        <td><span style="font-weight: bold;color: #0000cc">管理URL：</span>
+                            <span>xxx</span>
+                        </td>
+                        <td><span style="font-weight: bold;color: #0000cc">备份系统：</span>
+                            <span>承建厂商</span>
+                        </td>
+                        <td><span style="font-weight: bold;color: #0000cc">安全管理员：</span>
+                            <span>xxx</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span style="font-weight: bold;color: #0000cc">安全域：</span>
+                            <span>x</span>
+                        </td>
+                        <td><span style="font-weight: bold;color: #0000cc">管理员联系方式：</span>
+                            <span>13104406666</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!--管辖资产tab页签-->
+        <div class="tabCon"><br>
+            <!--查询下拉框-->
+            <div class="text-c" style="background-color: #c8ffad;line-height: 50px">
+                资产类型：
+                <span>
+                    <select class="select" id="assetType" name="" style="width: 150px;text-align-last: center;height: 30px">
+                        <option>请选择</option>
+                        <option>请选择1</option>
+                        <option>请选择2</option>
+                    </select>
+                </span>&emsp;
+                资产信息：
+                <input type="text" placeholder="资产名称、资产IP" class="input-text" name="" style="width:150px">&emsp;
+                <!--查询、重置-->
+                <button type="button" class="btn btn-primary radius"  name=""><i class="Hui-iconfont"></i> 查询</button>
+                <button type="button" class="btn btn-primary radius"  name=""><i class="Hui-iconfont"></i> 重置</button>
+            </div>
+            <br>
+            <a onclick="prov_asset_bound('绑定资产','bs_prov_asset_bound.html','','510')" href="javascript:;" id="" style="height: 30px;"  class="btn btn-primary radius l">
+                绑定
+            </a>
+
+            <!--表格-->
+            <div class="mt-20">
+                <table class="table table-border table-bordered table-bg table-hover table-sort">
+                    <thead>
+                    <tr class="text-c">
+                        <th width="50">序号</th>
+                        <th width="200">集团业务系统</th>
+                        <th width="200">省份业务系统</th>
+                        <th width="130">资产名称</th>
+                        <th width="130">资产IP</th>
+                        <th width="200">资产类型</th>
+                        <th width="80">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="text-c">
+                        <td>1</td>
+                        <td>移动省份->IP承载网系统</td>
+                        <td>神州泰岳->信息安全公司</td>
+                        <td>192.168.1.101</td>
+                        <td>192.168.1.101</td>
+                        <td>操作系统</td>
+                        <td class="f-14">
+                            <a title="查看" onclick="bs_prov_look_asset('查看资产信息','bs_prov_look_asset.html','0001','780','400')">
+                                <span style="color: #0e90d2">查看</span>
+                            </a>
+                            <a title="解绑" href="javascript:;" onclick="unbound_asset(this,'1')" class="ml-5" style="text-decoration:none">
+                                <span style="color: #0e90d2">解绑</span>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--分页-->
+            <div>
+                <br>当前第<font id="asset_now">1</font>页，共<font id="asset_pages">10</font>页
+                <a href="javascript:;" onclick="asset_page_down()" id="asset_page_down"  class="btn btn-primary radius r"><i class="Hui-iconfont"></i>下一页</a>
+                <a class="r">&nbsp;</a>
+                <a href="javascript:;" onclick="asset_page_up()" id="asset_page_up"  class="btn btn-primary radius r"><i class="Hui-iconfont"></i>上一页</a>
+            </div>
+        </div>
+</div>
+
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.skin-minimal input').iCheck({
+            checkboxClass: 'icheckbox-blue',
+            radioClass: 'iradio-blue',
+            increaseArea: '20%'
+        });
+        $("#tab-system").Huitab({
+            index: 0
+        });
+    });
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+<script>
+    /*查看资产信息*/
+    function bs_prov_look_asset(title,url,id,w,h){
+        parent.parent.layer_show(title,url,w,h);
+    }
+
+    /*省份业务系统删除*/
+    function bs_prov_del(obj,id){
+        parent.parent.layer.confirm('确定要删除该业务系统信息吗？',function(index){
+            /*$.ajax({
+                type: 'POST',
+                url: '',
+                dataType: 'json',
+                success: function(data){
+                    $(obj).parents("tr").remove();
+                    layer.msg('已删除!',{icon:1,time:1000});
+                },
+                error:function(data) {
+                    console.log(data.msg);
+                },
+            });*/
+            $(obj).parents("tr").remove();
+            layer.msg('已删除!',{icon:1,time:1000});
+            parent.parent.layer.close(index);
+        });
+    }
+
+    /*手动映射*/
+    function prov_asset_bound(title,url,w,h){
+        parent.parent.layer_show(title,url,w,h);
+    }
+</script>
+<script>
+
+    /*解绑*/
+    function unbound_asset(obj,id){
+        parent.parent.layer.confirm('确认要解除绑定吗？',function(index){
+            $.ajax({
+                type: 'POST',
+                url: '',
+                dataType: 'json',
+                success: function(data){
+                    $(obj).parents("tr").remove();
+                    layer.msg('已解绑!',{icon:1,time:1000});
+                },
+                error:function(data) {
+                    console.log(data.msg);
+                },
+            });
+        });
+    }
+
+</script>
+</body>
+</html>
